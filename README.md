@@ -18,6 +18,11 @@ A water conservation and sanitation awareness app built with Angular, aligned wi
 MaquaTrack PH aims to raise awareness about water conservation by allowing users to track their daily water usage, view water quality data, and learn about the importance of clean water and sanitation.
 
 ---
+## Rationale
+Access to clean water is a critical issue in the Philippines. 
+MaquaTrack PH aims to raise awareness and help users monitor 
+their daily water consumption to promote conservation and 
+support SDG 6.
 
 ## 📋 Features
 
