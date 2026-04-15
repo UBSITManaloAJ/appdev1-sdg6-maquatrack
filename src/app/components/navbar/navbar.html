@@ -1,1 +1,12 @@
-<p>navbar works!</p>
+<header class="navbar">
+    <div class="brand">
+      <span class="brand-icon">💧</span>
+      <span class="brand-name">MaquaTrack <span class="brand-ph">PH</span></span>
+    </div>
+    <nav>
+      <a routerLink="/home"      routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/tracker"   routerLinkActive="active">Tracker</a>
+      <a routerLink="/sdg-info"  routerLinkActive="active">SDG 6</a>
+    </nav>
+  </header>
