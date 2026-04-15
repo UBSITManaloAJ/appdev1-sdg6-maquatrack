@@ -1,59 +1,48 @@
-# Appdev1Sdg6Aquatrack
+# 💧 MaquaTrack PH
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+A water conservation and sanitation awareness app built with Angular, aligned with **SDG 6 — Clean Water and Sanitation**.
 
-## Development server
+---
 
-To start a local development server, run:
+## 👤 Developer
 
-```bash
-ng serve
-```
+|           Name          |          Role        |
+|-------------------------|----------------------|
+| Abraham James C. Manalo | Individual Developer |
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🌍 SDG Alignment
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+**SDG 6 — Clean Water and Sanitation**
+MaquaTrack PH aims to raise awareness about water conservation by allowing users to track their daily water usage, view water quality data, and learn about the importance of clean water and sanitation.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📋 Features
 
-```bash
-ng generate --help
-```
+- 🚰 Daily Water Usage Tracker
+- 📊 Water Data Dashboard
+- 🌍 SDG 6 Information Page
+- 🔒 Route Guards (coming soon)
+- 🌐 API Integration (coming soon)
 
-## Building
+---
 
-To build the project run:
+## 🛠️ Tech Stack
 
-```bash
-ng build
-```
+- Angular 19
+- TypeScript
+- CSS
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🚀 Setup Instructions
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Prerequisites
+- Node.js v18+
+- Angular CLI
 
-```bash
-ng test
-```
+### Installation
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Clone the repository
