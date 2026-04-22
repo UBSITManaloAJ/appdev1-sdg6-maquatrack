@@ -1,4 +1,58 @@
-<main style="padding:40px;">
-    <h1>🚰 Water Tracker</h1>
-    <p>Track your usage here.</p>
-  </main>
+<div class="tracker">
+  <div class="tracker-header">
+    <h1>🚰 Water Usage Tracker</h1>
+    <p>Log your daily water consumption</p>
+  </div>
+
+  <div class="tracker-content">
+    <div class="left-panel">
+      <div class="goal-card">
+        <h3>Daily Goal: {{ dailyGoal }}L</h3>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progressPercent()"></div>
+        </div>
+        <p>{{ totalLiters() }}L used of {{ dailyGoal }}L</p>
+      </div>
+
+      <div class="form-card">
+        <h3>➕ Add Water Log</h3>
+
+        <label>Activity</label>
+        <select [(ngModel)]="activity">
+          <option value="" disabled>Select activity</option>
+          <option *ngFor="let a of activities" [value]="a">{{ a }}</option>
+        </select>
+
+        <label>Liters Used</label>
+        <input type="number" [(ngModel)]="liters" min="0" placeholder="e.g. 2" />
+
+        <button class="btn-add" (click)="addLog()">Add Log</button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="logs-card">
+        <h3>📋 Today's Logs</h3>
+
+        <div class="empty" *ngIf="logs().length === 0">
+          <p>No logs yet. Start tracking! 💧</p>
+        </div>
+
+        <div class="log-item" *ngFor="let log of logs()">
+          <div class="log-info">
+            <span class="log-activity">{{ log.activity }}</span>
+            <span class="log-time">{{ log.time }}</span>
+          </div>
+          <div class="log-right">
+            <span class="log-liters">{{ log.liters }}L</span>
+            <button class="btn-remove" (click)="removeLog(log.id)">✕</button>
+          </div>
+        </div>
+
+        <div class="total" *ngIf="logs().length > 0">
+          <strong>Total: {{ totalLiters() }}L</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

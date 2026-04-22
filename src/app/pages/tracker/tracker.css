@@ -1,0 +1,160 @@
+.tracker {
+    padding: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .tracker-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .tracker-header h1 {
+    font-size: 2rem;
+    color: #0077b6;
+    margin-bottom: 8px;
+  }
+  
+  .tracker-header p { color: #666; }
+  
+  .tracker-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  
+  .goal-card, .form-card, .logs-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,119,182,0.1);
+    margin-bottom: 24px;
+  }
+  
+  .goal-card h3, .form-card h3, .logs-card h3 {
+    color: #0077b6;
+    margin-bottom: 16px;
+  }
+  
+  .progress-bar {
+    background: #e0f4ff;
+    border-radius: 999px;
+    height: 16px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  
+  .goal-card p { color: #555; font-size: 0.9rem; }
+  
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+    margin: 12px 0 4px;
+  }
+  
+  select, input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e0f4ff;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s;
+    box-sizing: border-box;
+  }
+  
+  select:focus, input:focus { border-color: #0077b6; }
+  
+  .btn-add {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  
+  .btn-add:hover { opacity: 0.9; }
+  
+  .empty {
+    text-align: center;
+    padding: 32px;
+    color: #aaa;
+  }
+  
+  .log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f0f9ff;
+    margin-bottom: 8px;
+  }
+  
+  .log-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .log-activity {
+    font-weight: 600;
+    color: #0077b6;
+    font-size: 0.95rem;
+  }
+  
+  .log-time {
+    font-size: 0.75rem;
+    color: #999;
+  }
+  
+  .log-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .log-liters {
+    font-weight: 700;
+    color: #00b4d8;
+    font-size: 1rem;
+  }
+  
+  .btn-remove {
+    background: #ffe8e8;
+    color: #e63946;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  
+  .total {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid #e0f4ff;
+    text-align: right;
+    color: #0077b6;
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .tracker { padding: 16px; }
+    .tracker-content { grid-template-columns: 1fr; }
+  }
