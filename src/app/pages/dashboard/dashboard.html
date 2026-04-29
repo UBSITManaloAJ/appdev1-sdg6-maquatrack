@@ -4,26 +4,30 @@
     <p>Asian countries — Population & Water Access Overview</p>
   </div>
 
-  <div class="loading" *ngIf="isLoading">
-    <div class="spinner"></div>
-    <p>Loading water data...</p>
-  </div>
+  <ng-container *ngIf="state$ | async as state">
 
-  <div class="error" *ngIf="hasError">
-    <p>⚠️ Failed to load data. Please check your connection.</p>
-  </div>
+    <div class="loading" *ngIf="state.loading">
+      <div class="spinner"></div>
+      <p>Loading water data...</p>
+    </div>
 
-  <div class="cards-grid" *ngIf="!isLoading && !hasError">
-    <div class="card" *ngFor="let item of waterData">
-      <div class="card-flag">
-        <img [src]="item.flag" [alt]="item.country + ' flag'" />
-      </div>
-      <div class="card-body">
-        <h3>{{ item.country }}</h3>
-        <p class="capital">🏙️ {{ item.capital }}</p>
-        <p class="region">📍 {{ item.region }}</p>
-        <p class="population">👥 {{ item.population | number }}</p>
+    <div class="error" *ngIf="state.error">
+      <p>⚠️ Failed to load data. Please check your connection.</p>
+    </div>
+
+    <div class="cards-grid" *ngIf="!state.loading && !state.error">
+      <div class="card" *ngFor="let item of state.data">
+        <div class="card-flag">
+          <img [src]="item.flag" [alt]="item.country + ' flag'" />
+        </div>
+        <div class="card-body">
+          <h3>{{ item.country }}</h3>
+          <p class="capital">🏙️ {{ item.capital }}</p>
+          <p class="region">📍 {{ item.region }}</p>
+          <p class="population">👥 {{ item.population | number }}</p>
+        </div>
       </div>
     </div>
-  </div>
+
+  </ng-container>
 </div>

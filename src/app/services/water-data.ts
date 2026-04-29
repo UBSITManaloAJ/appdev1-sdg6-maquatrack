@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, catchError, of, map } from 'rxjs';
 import { WaterData } from '../models/water-data.model';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class WaterDataService {
         population: c.population,
         flag: c.flags.png,
         capital: c.capital?.[0] || 'N/A'
-      }))),
+      })).slice(0, 12)),
       catchError(() => of([]))
     );
   }
