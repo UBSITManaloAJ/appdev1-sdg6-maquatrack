@@ -1,0 +1,27 @@
+<div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span>💧</span>
+        <h1>MaquaTrack <span>PH</span></h1>
+      </div>
+      <p class="auth-sub">Your personal fitness & water tracker</p>
+  
+      <div class="error-msg" *ngIf="error">{{ error }}</div>
+  
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="username" placeholder="Enter username" />
+      </div>
+  
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" placeholder="Enter password" />
+      </div>
+  
+      <button class="btn-primary" (click)="login()">Login</button>
+  
+      <p class="auth-link">
+        Don't have an account? <a routerLink="/signup">Sign up</a>
+      </p>
+    </div>
+  </div>

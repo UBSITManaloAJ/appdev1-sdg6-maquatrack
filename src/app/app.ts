@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './components/navbar/navbar';
+import { CommonModule } from '@angular/common';
+import { Sidebar } from './components/sidebar/sidebar';
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar],
+  imports: [RouterOutlet, CommonModule, Sidebar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(public authService: AuthService) {}
+}

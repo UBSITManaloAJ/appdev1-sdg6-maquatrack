@@ -1,0 +1,64 @@
+<aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">💧</span>
+      <span class="logo-text">Maqua<span>Track</span></span>
+    </div>
+  
+    <nav class="sidebar-nav">
+      <a routerLink="/home" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </a>
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a routerLink="/workout" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Workout</span>
+      </a>
+      <a routerLink="/tracker" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💧</span>
+        <span class="nav-label">Water</span>
+      </a>
+      <a routerLink="/calendar" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Calendar</span>
+      </a>
+      <a routerLink="/challenges" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏆</span>
+        <span class="nav-label">Challenges</span>
+      </a>
+      <a routerLink="/sdg-info" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-label">SDG Info</span>
+      </a>
+    </nav>
+  
+    <div class="sidebar-bottom">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ authService.getUsername().charAt(0).toUpperCase() }}
+        </div>
+        <div class="user-details">
+          <span class="user-name">{{ authService.getUsername() }}</span>
+          <span class="user-rank">{{ authService.getRank() }}</span>
+        </div>
+      </div>
+  
+      <div class="exp-bar">
+        <div class="exp-label">
+          <span>EXP</span>
+          <span>{{ authService.getExp() }}</span>
+        </div>
+        <div class="exp-track">
+          <div class="exp-fill" [style.width.%]="(authService.getExp() % 100)"></div>
+        </div>
+      </div>
+  
+      <button class="btn-logout" (click)="logout()">
+        <span>🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>

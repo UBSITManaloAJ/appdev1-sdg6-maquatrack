@@ -1,47 +1,96 @@
 .navbar {
-    background: linear-gradient(135deg, #0077b6, #00b4d8);
-    padding: 0 32px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 12px rgba(0, 119, 182, 0.3);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .brand-icon { font-size: 24px; }
-  
-  .brand-name {
-    font-size: 20px;
-    font-weight: 800;
-    color: white;
-    letter-spacing: -0.02em;
-  }
-  
-  .brand-ph { color: #ade8f4; }
-  
-  nav {
-    display: flex;
-    gap: 4px;
-  }
-  
-  nav a {
-    color: rgba(255,255,255,0.85);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  
-  nav a:hover { background: rgba(255,255,255,0.15); color: white; }
-  nav a.active { background: rgba(255,255,255,0.25); color: white; font-weight: 700; }
+  background: #111;
+  border-bottom: 1px solid #222;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.brand-icon { font-size: 20px; }
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+
+.brand-ph { color: #00a8ff; }
+
+nav {
+  display: flex;
+  gap: 2px;
+}
+
+nav a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+nav a.active { color: #00a8ff; background: rgba(0,168,255,0.1); }
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  justify-content: flex-end;
+}
+
+.rank-badge {
+  background: rgba(0,168,255,0.15);
+  color: #00a8ff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.exp-badge {
+  background: rgba(255,200,0,0.15);
+  color: #ffc800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.username {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
+
+.btn-logout {
+  background: rgba(255,50,50,0.15);
+  color: #ff5050;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover { background: rgba(255,50,50,0.3); }
+
+@media (max-width: 900px) {
+  nav a { padding: 6px 8px; font-size: 12px; }
+  .exp-badge, .rank-badge { display: none; }
+}

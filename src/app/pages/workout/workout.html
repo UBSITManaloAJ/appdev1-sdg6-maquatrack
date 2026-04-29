@@ -1,0 +1,81 @@
+<div class="workout">
+    <div class="workout-header">
+      <h1>💪 Workout Logger</h1>
+      <p>Log your exercises and earn EXP for every session</p>
+    </div>
+  
+    <div class="workout-content">
+      <div class="left-panel">
+        <div class="card">
+          <h3>Select Your Split</h3>
+          <select [(ngModel)]="selectedSplit">
+            <option value="" disabled>Choose workout split...</option>
+            <option *ngFor="let s of splits" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+  
+        <div class="card" *ngIf="suggestedExercises.length > 0">
+          <h3>💡 Suggested Exercises</h3>
+          <div class="exercise-chips">
+            <button
+              *ngFor="let ex of suggestedExercises"
+              class="chip"
+              [class.selected]="exercise === ex"
+              (click)="selectExercise(ex)">
+              {{ ex }}
+            </button>
+          </div>
+        </div>
+  
+        <div class="card">
+          <h3>➕ Log Exercise</h3>
+          <label>Exercise Name</label>
+          <input type="text" [(ngModel)]="exercise" placeholder="e.g. Bench Press" />
+  
+          <div class="input-row">
+            <div>
+              <label>Sets</label>
+              <input type="number" [(ngModel)]="sets" min="1" />
+            </div>
+            <div>
+              <label>Reps</label>
+              <input type="number" [(ngModel)]="reps" min="1" />
+            </div>
+            <div>
+              <label>Weight (kg)</label>
+              <input type="number" [(ngModel)]="weight" min="0" />
+            </div>
+          </div>
+  
+          <button class="btn-add" (click)="addLog()">
+            Log Exercise +30 EXP
+          </button>
+        </div>
+      </div>
+  
+      <div class="right-panel">
+        <div class="card">
+          <h3>📋 Today's Session</h3>
+          <div class="volume-stat" *ngIf="logs().length > 0">
+            Total Volume: <strong>{{ totalVolume() }} kg</strong>
+          </div>
+  
+          <div class="empty" *ngIf="logs().length === 0">
+            <p>No exercises logged yet. Start your session! 💪</p>
+          </div>
+  
+          <div class="log-item" *ngFor="let log of logs().slice().reverse().slice(0, 10)">
+            <div class="log-info">
+              <span class="log-exercise">{{ log.exercise }}</span>
+              <span class="log-split">{{ log.split }}</span>
+            </div>
+            <div class="log-details">
+              <span>{{ log.sets }}x{{ log.reps }}</span>
+              <span *ngIf="log.weight > 0">@ {{ log.weight }}kg</span>
+              <span class="log-exp">+{{ log.exp }} EXP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
