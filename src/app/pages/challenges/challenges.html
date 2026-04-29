@@ -1,0 +1,54 @@
+<div class="challenges">
+    <div class="challenges-header">
+      <h1>🏆 Challenges</h1>
+      <p>Complete challenges to earn EXP and level up your rank</p>
+    </div>
+  
+    <div class="rank-card">
+      <div class="rank-info">
+        <span class="rank-label">Current Rank</span>
+        <span class="rank-value">{{ rank }}</span>
+      </div>
+      <div class="rank-info">
+        <span class="rank-label">Total EXP</span>
+        <span class="rank-value exp">{{ totalExp }} EXP</span>
+      </div>
+      <div class="rank-info">
+        <span class="rank-label">Completed</span>
+        <span class="rank-value">{{ completedCount }} / {{ challenges().length }}</span>
+      </div>
+    </div>
+  
+    <div class="rank-guide">
+      <h3>🎯 Rank Guide</h3>
+      <div class="ranks">
+        <div class="rank-item">🩶 Beginner <span>0 EXP</span></div>
+        <div class="rank-item">⚙️ Iron <span>100 EXP</span></div>
+        <div class="rank-item">🥉 Bronze <span>300 EXP</span></div>
+        <div class="rank-item">🥈 Silver <span>600 EXP</span></div>
+        <div class="rank-item">🥇 Gold <span>1000 EXP</span></div>
+        <div class="rank-item">💎 Platinum <span>1500 EXP</span></div>
+        <div class="rank-item">👑 Elite <span>2000 EXP</span></div>
+      </div>
+    </div>
+  
+    <div class="challenges-grid">
+      <div
+        class="challenge-card"
+        [class.completed]="challenge.completed"
+        *ngFor="let challenge of challenges()">
+        <div class="challenge-icon">{{ challenge.icon }}</div>
+        <div class="challenge-body">
+          <h3>{{ challenge.title }}</h3>
+          <p>{{ challenge.description }}</p>
+          <span class="challenge-exp">+{{ challenge.exp }} EXP</span>
+        </div>
+        <button
+          class="btn-complete"
+          [class.done]="challenge.completed"
+          (click)="complete(challenge.id, challenge.exp, challenge.completed)">
+          {{ challenge.completed ? '✅ Done' : 'Complete' }}
+        </button>
+      </div>
+    </div>
+  </div>

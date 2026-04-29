@@ -1,35 +1,75 @@
 <div class="home">
   <div class="hero">
     <div class="hero-content">
-      <h1>💧 MaquaTrack PH</h1>
-      <p class="tagline">Tracking Water. Saving Lives.</p>
-      <p class="description">
-        A web app supporting <strong>SDG 6 — Clean Water and Sanitation</strong>.
-        Monitor water data, track your usage, and learn how to conserve water.
-      </p>
+      <div class="hero-badge">SDG 3 + SDG 6 💪💧</div>
+      <h1>BE FIT<br><span>BE STRONGER</span></h1>
+      <p>Your personal fitness companion. No audience needed — just you vs. you.</p>
       <div class="hero-buttons">
-        <a routerLink="/dashboard" class="btn-primary">View Dashboard</a>
-        <a routerLink="/sdg-info" class="btn-secondary">Learn SDG 6</a>
+        <a routerLink="/workout" class="btn-primary">Start Workout 💪</a>
+        <a routerLink="/challenges" class="btn-secondary">View Challenges 🏆</a>
       </div>
     </div>
-    <div class="hero-icon">🌊</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value">{{ authService.getExp() }}</span>
+      <span class="stat-label">Total EXP</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ authService.getRank() }}</span>
+      <span class="stat-label">Current Rank</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ authService.getStreak() }}</span>
+      <span class="stat-label">Day Streak 🔥</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ workoutsLogged }}</span>
+      <span class="stat-label">Workouts Logged</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ challengesCompleted }}</span>
+      <span class="stat-label">Challenges Done</span>
+    </div>
   </div>
 
   <div class="features">
-    <div class="feature-card">
-      <span>📊</span>
+    <a routerLink="/workout" class="feature-card">
+      <span class="feature-icon">💪</span>
+      <h3>Workout Logger</h3>
+      <p>Log exercises, track sets, reps and weight. Get split suggestions.</p>
+      <span class="feature-exp">+30 EXP per workout</span>
+    </a>
+    <a routerLink="/tracker" class="feature-card">
+      <span class="feature-icon">💧</span>
+      <h3>Water Tracker</h3>
+      <p>Monitor daily water intake and stay hydrated for peak performance.</p>
+      <span class="feature-exp">+10 EXP per goal</span>
+    </a>
+    <a routerLink="/calendar" class="feature-card">
+      <span class="feature-icon">📅</span>
+      <h3>Gym Calendar</h3>
+      <p>Plan your weekly gym schedule and never miss a session.</p>
+      <span class="feature-exp">+15 EXP per plan</span>
+    </a>
+    <a routerLink="/challenges" class="feature-card">
+      <span class="feature-icon">🏆</span>
+      <h3>Challenges</h3>
+      <p>Complete personal fitness challenges and earn bonus EXP.</p>
+      <span class="feature-exp">+50 EXP per challenge</span>
+    </a>
+    <a routerLink="/dashboard" class="feature-card">
+      <span class="feature-icon">🌊</span>
       <h3>Water Dashboard</h3>
-      <p>View water and population data from Asian countries.</p>
-    </div>
-    <div class="feature-card">
-      <span>🚰</span>
-      <h3>Usage Tracker</h3>
-      <p>Log and monitor your daily water consumption.</p>
-    </div>
-    <div class="feature-card">
-      <span>🌍</span>
-      <h3>SDG 6 Info</h3>
-      <p>Learn about the UN's clean water and sanitation goal.</p>
-    </div>
+      <p>Explore global water access data supporting SDG 6.</p>
+      <span class="feature-exp">SDG 6 Awareness</span>
+    </a>
+    <a routerLink="/sdg-info" class="feature-card">
+      <span class="feature-icon">🌍</span>
+      <h3>SDG Info</h3>
+      <p>Learn how fitness and water connect to UN Sustainable Goals.</p>
+      <span class="feature-exp">SDG 3 + SDG 6</span>
+    </a>
   </div>
 </div>

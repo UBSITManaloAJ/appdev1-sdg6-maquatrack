@@ -1,0 +1,59 @@
+<div class="calendar">
+    <div class="calendar-header">
+      <h1>📅 Weekly Gym Planner</h1>
+      <p>Plan your week and stay consistent with your training</p>
+    </div>
+  
+    <div class="summary-bar">
+      <div class="summary-item gym">
+        <span>🏋️</span>
+        <span>{{ gymDays }} Gym Days</span>
+      </div>
+      <div class="summary-item cardio">
+        <span>🏃</span>
+        <span>{{ cardioDays }} Cardio Days</span>
+      </div>
+      <div class="summary-item rest">
+        <span>😴</span>
+        <span>{{ restDays }} Rest Days</span>
+      </div>
+    </div>
+  
+    <div class="days-grid">
+      <div
+        class="day-card"
+        [class]="getDayClass(day.type)"
+        *ngFor="let day of days">
+        <div class="day-name">{{ day.day }}</div>
+  
+        <div class="day-types">
+          <button
+            class="type-btn"
+            [class.active]="day.type === 'gym'"
+            (click)="day.type = 'gym'">🏋️ Gym</button>
+          <button
+            class="type-btn"
+            [class.active]="day.type === 'cardio'"
+            (click)="day.type = 'cardio'">🏃 Cardio</button>
+          <button
+            class="type-btn"
+            [class.active]="day.type === 'rest'"
+            (click)="day.type = 'rest'">😴 Rest</button>
+        </div>
+  
+        <input
+          type="text"
+          [(ngModel)]="day.note"
+          placeholder="Notes (e.g. PPL - Push)..." />
+      </div>
+    </div>
+  
+    <div class="save-section">
+      <button class="btn-save" (click)="savePlan()">
+        Save Weekly Plan +15 EXP
+      </button>
+      <div class="save-success" *ngIf="saved()">
+        ✅ Plan saved! +15 EXP earned!
+      </div>
+    </div>
+  </div>

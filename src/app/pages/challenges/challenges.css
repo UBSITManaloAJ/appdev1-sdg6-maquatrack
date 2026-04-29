@@ -1,0 +1,113 @@
+.challenges {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 28px;
+  }
+  
+  .challenges-header { margin-bottom: 28px; }
+  
+  .challenges-header h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+  
+  .challenges-header p { color: #999; }
+  
+  .rank-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    gap: 40px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    flex-wrap: wrap;
+  }
+  
+  .rank-info { display: flex; flex-direction: column; gap: 4px; }
+  
+  .rank-label {
+    font-size: 0.72rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .rank-value { font-size: 1.3rem; font-weight: 900; color: #1a1a1a; }
+  .rank-value.exp { color: #ffc800; }
+  
+  .rank-guide {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  
+  .rank-guide h3 { color: #1a1a1a; margin-bottom: 14px; font-size: 0.95rem; }
+  
+  .ranks { display: flex; flex-wrap: wrap; gap: 8px; }
+  
+  .rank-item {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #555;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .rank-item span { color: #ffc800; font-size: 0.72rem; font-weight: 700; }
+  
+  .challenges-grid { display: flex; flex-direction: column; gap: 10px; }
+  
+  .challenge-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  
+  .challenge-card:hover { border-color: #e0e0e0; }
+  .challenge-card.completed { opacity: 0.5; }
+  
+  .challenge-icon { font-size: 1.8rem; }
+  .challenge-body { flex: 1; }
+  
+  .challenge-body h3 { color: #1a1a1a; font-size: 0.92rem; font-weight: 700; margin-bottom: 3px; }
+  .challenge-body p { color: #999; font-size: 0.82rem; margin-bottom: 8px; }
+  
+  .challenge-exp {
+    background: rgba(0,168,255,0.08);
+    color: #00a8ff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  
+  .btn-complete {
+    background: rgba(0,168,255,0.08);
+    border: 1px solid rgba(0,168,255,0.2);
+    color: #00a8ff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  
+  .btn-complete:hover { background: rgba(0,168,255,0.15); }
+  .btn-complete.done { background: #f5f5f5; border-color: #eee; color: #bbb; cursor: default; }
