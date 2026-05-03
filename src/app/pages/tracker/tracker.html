@@ -1,7 +1,7 @@
 <div class="tracker">
   <div class="tracker-header">
-    <h1>🚰 Water Usage Tracker</h1>
-    <p>Log your daily water consumption</p>
+    <h1>💧 Hydration Tracker</h1>
+    <p>Log your daily water intake to stay hydrated during training</p>
   </div>
 
   <div class="tracker-content">
@@ -11,31 +11,31 @@
         <div class="progress-bar">
           <div class="progress-fill" [style.width.%]="progressPercent()"></div>
         </div>
-        <p>{{ totalLiters() }}L used of {{ dailyGoal }}L</p>
+        <p>{{ totalLiters() }}L consumed of {{ dailyGoal }}L</p>
       </div>
 
       <div class="form-card">
-        <h3>➕ Add Water Log</h3>
+        <h3>➕ Log Drink</h3>
 
-        <label>Activity</label>
+        <label>Drink Type</label>
         <select [(ngModel)]="activity">
-          <option value="" disabled>Select activity</option>
+          <option value="" disabled>Select drink...</option>
           <option *ngFor="let a of activities" [value]="a">{{ a }}</option>
         </select>
 
-        <label>Liters Used</label>
-        <input type="number" [(ngModel)]="liters" min="0" placeholder="e.g. 2" />
+        <label>Amount (Liters)</label>
+        <input type="number" [(ngModel)]="liters" min="0" step="0.1" placeholder="e.g. 0.5" />
 
-        <button class="btn-add" (click)="addLog()">Add Log</button>
+        <button class="btn-add" (click)="addLog()">Log Drink +10 EXP</button>
       </div>
     </div>
 
     <div class="right-panel">
       <div class="logs-card">
-        <h3>📋 Today's Logs</h3>
+        <h3>📋 Today's Hydration Log</h3>
 
         <div class="empty" *ngIf="logs().length === 0">
-          <p>No logs yet. Start tracking! 💧</p>
+          <p>No drinks logged yet. Stay hydrated! 💧</p>
         </div>
 
         <div class="log-item" *ngFor="let log of logs()">

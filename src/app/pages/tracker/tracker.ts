@@ -1,9 +1,9 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
-interface WaterLog {
+interface HydrationLog {
   id: number;
   activity: string;
   liters: number;
@@ -20,24 +20,24 @@ interface WaterLog {
 export class Tracker {
   activity = '';
   liters = 0;
-  logs = signal<WaterLog[]>([]);
-  
+  logs = signal<HydrationLog[]>([]);
+
   totalLiters = computed(() =>
     this.logs().reduce((sum, log) => sum + log.liters, 0)
   );
 
-  dailyGoal = 50;
+  dailyGoal = 3;
 
   progressPercent = computed(() =>
     Math.min((this.totalLiters() / this.dailyGoal) * 100, 100)
   );
 
   activities = [
-    'Drinking', 'Cooking', 'Bathing', 'Washing Dishes',
-    'Laundry', 'Brushing Teeth', 'Watering Plants', 'Other'
+    'Water', 'Sports Drink', 'Protein Shake',
+    'Juice', 'Coconut Water', 'Other'
   ];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private authService: AuthService) {}
 
   addLog() {
     if (!this.activity || this.liters <= 0) return;
@@ -47,6 +47,7 @@ export class Tracker {
       liters: this.liters,
       time: new Date().toLocaleTimeString()
     }]);
+    this.authService.addExp(10);
     this.activity = '';
     this.liters = 0;
   }

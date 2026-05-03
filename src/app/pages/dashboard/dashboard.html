@@ -1,14 +1,13 @@
 <div class="dashboard">
   <div class="dashboard-header">
-    <h1>🌊 Water Data Dashboard</h1>
-    <p>Asian countries — Population & Water Access Overview</p>
+    <h1>📊 Global Health Dashboard</h1>
+    <p>Population data from Asian countries — supporting SDG 3 awareness</p>
   </div>
 
   <ng-container *ngIf="state$ | async as state">
-
     <div class="loading" *ngIf="state.loading">
       <div class="spinner"></div>
-      <p>Loading water data...</p>
+      <p>Loading health data...</p>
     </div>
 
     <div class="error" *ngIf="state.error">
@@ -28,6 +27,5 @@
         </div>
       </div>
     </div>
-
   </ng-container>
 </div>
