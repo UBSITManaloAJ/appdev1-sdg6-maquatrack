@@ -1,59 +1,156 @@
-<div class="calendar">
-    <div class="calendar-header">
-      <h1>📅 Weekly Gym Planner</h1>
-      <p>Plan your week and stay consistent with your training</p>
-    </div>
-  
-    <div class="summary-bar">
-      <div class="summary-item gym">
-        <span>🏋️</span>
-        <span>{{ gymDays }} Gym Days</span>
-      </div>
-      <div class="summary-item cardio">
-        <span>🏃</span>
-        <span>{{ cardioDays }} Cardio Days</span>
-      </div>
-      <div class="summary-item rest">
-        <span>😴</span>
-        <span>{{ restDays }} Rest Days</span>
-      </div>
-    </div>
-  
-    <div class="days-grid">
-      <div
-        class="day-card"
-        [class]="getDayClass(day.type)"
-        *ngFor="let day of days">
-        <div class="day-name">{{ day.day }}</div>
-  
-        <div class="day-types">
-          <button
-            class="type-btn"
-            [class.active]="day.type === 'gym'"
-            (click)="day.type = 'gym'">🏋️ Gym</button>
-          <button
-            class="type-btn"
-            [class.active]="day.type === 'cardio'"
-            (click)="day.type = 'cardio'">🏃 Cardio</button>
-          <button
-            class="type-btn"
-            [class.active]="day.type === 'rest'"
-            (click)="day.type = 'rest'">😴 Rest</button>
+<div class="calendar-page">
+  <div class="calendar-hero">
+    <img src="bg.png" class="hero-bg" alt="background" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>📅 Workout Planner</h1>
+      <p>Plan your training week and stay consistent</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span>🏋️ {{ gymCount }}</span>
+          <span>Gym Days</span>
         </div>
-  
-        <input
-          type="text"
-          [(ngModel)]="day.note"
-          placeholder="Notes (e.g. PPL - Push)..." />
-      </div>
-    </div>
-  
-    <div class="save-section">
-      <button class="btn-save" (click)="savePlan()">
-        Save Weekly Plan +15 EXP
-      </button>
-      <div class="save-success" *ngIf="saved()">
-        ✅ Plan saved! +15 EXP earned!
+        <div class="hero-stat">
+          <span>🏃 {{ cardioCount }}</span>
+          <span>Cardio Days</span>
+        </div>
+        <div class="hero-stat">
+          <span>😴 {{ restCount }}</span>
+          <span>Rest Days</span>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="calendar-container">
+    <div class="calendar-toolbar">
+      <div class="view-tabs">
+        <button
+          class="tab-btn"
+          [class.active]="activeView() === 'week'"
+          (click)="activeView.set('week')">
+          Week
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeView() === 'month'"
+          (click)="activeView.set('month')">
+          Month
+        </button>
+      </div>
+
+      <div class="nav-controls">
+        <button class="nav-btn" (click)="prev()">‹</button>
+        <span class="current-period">
+          {{ activeView() === 'week' ? currentWeekRange : currentMonthYear }}
+        </span>
+        <button class="nav-btn" (click)="next()">›</button>
+        <button class="today-btn" (click)="today()">Today</button>
+      </div>
+    </div>
+
+    <!-- Week View -->
+    <div class="week-view" *ngIf="activeView() === 'week'">
+      <div class="week-header">
+        <div
+          class="week-day-header"
+          *ngFor="let day of weekDays"
+          [class.today]="isToday(day)">
+          <span class="day-name">{{ day.toLocaleDateString('en-US', {weekday: 'short'}) }}</span>
+          <span class="day-num" [class.today-circle]="isToday(day)">{{ day.getDate() }}</span>
+        </div>
+      </div>
+
+      <div class="week-body">
+        <div
+          class="week-cell"
+          *ngFor="let day of weekDays"
+          (click)="openModal(day)">
+          <div class="cell-entry" *ngIf="getEntry(day) as entry" [class]="getTypeColor(entry.type)">
+            <span class="entry-type">
+              {{ entry.type === 'gym' ? '🏋️' : entry.type === 'cardio' ? '🏃' : '😴' }}
+              {{ entry.type | titlecase }}
+            </span>
+            <span class="entry-split" *ngIf="entry.split">{{ entry.split }}</span>
+            <span class="entry-note" *ngIf="entry.note">{{ entry.note }}</span>
+          </div>
+          <div class="cell-empty" *ngIf="!getEntry(day)">
+            <span>+ Add</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month View -->
+    <div class="month-view" *ngIf="activeView() === 'month'">
+      <div class="month-header">
+        <div *ngFor="let d of ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']" class="month-day-name">
+          {{ d }}
+        </div>
+      </div>
+
+      <div class="month-grid">
+        <div
+          *ngFor="let day of monthDays"
+          class="month-cell"
+          [class.empty]="!day"
+          [class.today]="day && isToday(day)"
+          (click)="day && openModal(day)">
+          <div *ngIf="day">
+            <span class="month-date" [class.today-circle]="isToday(day)">
+              {{ day.getDate() }}
+            </span>
+            <div class="month-entry" *ngIf="getEntry(day) as entry" [class]="getTypeColor(entry.type)">
+              {{ entry.type === 'gym' ? '🏋️' : entry.type === 'cardio' ? '🏃' : '😴' }}
+              {{ entry.split || entry.type | titlecase }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="showModal()" (click)="showModal.set(false)">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>📅 {{ selectedDate() }}</h3>
+        <button class="modal-close" (click)="showModal.set(false)">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <label>Workout Type</label>
+        <div class="type-buttons">
+          <button
+            class="type-btn"
+            [class.active-gym]="selectedType() === 'gym'"
+            (click)="selectedType.set('gym')">🏋️ Gym</button>
+          <button
+            class="type-btn"
+            [class.active-cardio]="selectedType() === 'cardio'"
+            (click)="selectedType.set('cardio')">🏃 Cardio</button>
+          <button
+            class="type-btn"
+            [class.active-rest]="selectedType() === 'rest'"
+            (click)="selectedType.set('rest')">😴 Rest</button>
+        </div>
+
+        <label>Split (optional)</label>
+        <select [(ngModel)]="selectedSplit">
+          <option value="">No split selected</option>
+          <option *ngFor="let s of splits" [value]="s">{{ s }}</option>
+        </select>
+
+        <label>Notes (optional)</label>
+        <input type="text" [(ngModel)]="selectedNote" placeholder="e.g. Focus on chest today..." />
+      </div>
+
+      <div class="modal-footer">
+<button class="btn-remove" *ngIf="entries().find(e => e.date === selectedDate())" (click)="removeEntry()">Remove</button>
+        <button class="btn-save" (click)="saveEntry()">Save +15 EXP</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-toast" *ngIf="saved()">✅ Entry saved! +15 EXP earned!</div>
+</div>

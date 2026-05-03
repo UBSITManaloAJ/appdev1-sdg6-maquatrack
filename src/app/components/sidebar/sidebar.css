@@ -1,162 +1,162 @@
 .sidebar {
-    width: 220px;
-    min-width: 220px;
-    background: #111;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 24px 16px;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-  
-  .sidebar-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 8px;
-    margin-bottom: 40px;
-  }
-  
-  .logo-icon { font-size: 24px; }
-  
-  .logo-text {
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: -0.02em;
-  }
-  
-  .logo-text span { color: #00a8ff; }
-  
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-  }
-  
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: rgba(255,255,255,0.45);
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  
-  .nav-item:hover {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.8);
-  }
-  
-  .nav-item.active {
-    background: rgba(0,168,255,0.12);
-    color: #00a8ff;
-    font-weight: 600;
-  }
-  
-  .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
-  .nav-label { flex: 1; }
-  
-  .sidebar-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid #1e1e1e;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px;
-  }
-  
-  .user-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #00a8ff;
-    color: white;
-    font-weight: 800;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  .user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
-  }
-  
-  .user-name {
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .user-rank {
-    color: rgba(255,255,255,0.4);
-    font-size: 0.72rem;
-  }
-  
-  .exp-bar { padding: 0 8px; }
-  
-  .exp-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.35);
-    margin-bottom: 6px;
-  }
-  
-  .exp-track {
-    background: #1e1e1e;
-    border-radius: 999px;
-    height: 4px;
-    overflow: hidden;
-  }
-  
-  .exp-fill {
-    background: #00a8ff;
-    height: 100%;
-    border-radius: 999px;
-    transition: width 0.4s ease;
-  }
-  
-  .btn-logout {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 10px 12px;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    color: rgba(255,50,50,0.6);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-  }
-  
-  .btn-logout:hover {
-    background: rgba(255,50,50,0.08);
-    color: #ff5050;
-  }
+  width: 220px;
+  min-width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  margin-bottom: 40px;
+}
+
+.logo-icon { font-size: 24px; }
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+.logo-text span { color: #00a8ff; }
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+
+.nav-item:hover .nav-icon-img,
+.nav-item.active .nav-icon-img {
+  opacity: 1;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #00a8ff;
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.user-name {
+  color: #1a1a1a;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-rank {
+  color: #aaa;
+  font-size: 0.72rem;
+}
+
+.exp-bar { padding: 0 8px; }
+
+.exp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #bbb;
+  margin-bottom: 6px;
+}
+
+.exp-track {
+  background: #f0f0f0;
+  border-radius: 999px;
+  height: 4px;
+  overflow: hidden;
+}
+
+.exp-fill {
+  background: #00a8ff;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: #ffaaaa;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.btn-logout:hover {
+  background: #fff0f0;
+  color: #e63946;
+}
