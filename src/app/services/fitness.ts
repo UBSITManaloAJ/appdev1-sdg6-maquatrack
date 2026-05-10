@@ -1,61 +1,119 @@
 import { Injectable } from '@angular/core';
-import { WorkoutLog, Challenge } from '../models/water-data.model';
+import { WorkoutPlan, DaySchedule } from '../models/water-data.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FitnessService {
 
-  getSplitExercises(split: string): string[] {
-    const splits: Record<string, string[]> = {
-      'PPL - Push': ['Bench Press', 'Overhead Press', 'Incline Dumbbell Press', 'Tricep Pushdown', 'Lateral Raises'],
-      'PPL - Pull': ['Deadlift', 'Pull-ups', 'Barbell Row', 'Face Pulls', 'Bicep Curls'],
-      'PPL - Legs': ['Squat', 'Romanian Deadlift', 'Leg Press', 'Leg Curl', 'Calf Raises'],
-      'Upper': ['Bench Press', 'Pull-ups', 'Overhead Press', 'Barbell Row', 'Bicep Curls', 'Tricep Pushdown'],
-      'Lower': ['Squat', 'Deadlift', 'Leg Press', 'Leg Curl', 'Calf Raises'],
-      'Arnold - Chest/Back': ['Bench Press', 'Incline Press', 'Pull-ups', 'Barbell Row', 'Cable Fly'],
-      'Arnold - Shoulders/Arms': ['Overhead Press', 'Lateral Raises', 'Bicep Curls', 'Tricep Pushdown', 'Face Pulls'],
-      'Arnold - Legs': ['Squat', 'Leg Press', 'Leg Curl', 'Calf Raises', 'Lunges'],
-      'Bro - Chest': ['Bench Press', 'Incline Press', 'Cable Fly', 'Dips', 'Push-ups'],
-      'Bro - Back': ['Pull-ups', 'Barbell Row', 'Lat Pulldown', 'Seated Row', 'Deadlift'],
-      'Bro - Shoulders': ['Overhead Press', 'Lateral Raises', 'Front Raises', 'Face Pulls', 'Shrugs'],
-      'Bro - Arms': ['Bicep Curls', 'Hammer Curls', 'Tricep Pushdown', 'Skull Crushers', 'Dips'],
-      'Bro - Legs': ['Squat', 'Leg Press', 'Leg Curl', 'Calf Raises', 'Lunges'],
+  getWorkoutPlan(days: number, goal: string): WorkoutPlan {
+    const plans: Record<string, WorkoutPlan> = {
+
+      '2_any': {
+        days: 2,
+        goal,
+        splitName: 'Full Body Split',
+        splitDescription: 'Train your entire body in each session. Perfect for beginners with limited time. Each muscle group gets trained twice per week for optimal growth.',
+        schedule: [
+          { day: 'Monday', focus: 'Full Body A', bodyParts: ['chest', 'back', 'legs', 'shoulders'], isRest: false },
+          { day: 'Tuesday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Wednesday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Thursday', focus: 'Full Body B', bodyParts: ['chest', 'back', 'legs', 'arms'], isRest: false },
+          { day: 'Friday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Saturday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      },
+
+      '3_build': {
+        days: 3,
+        goal,
+        splitName: 'Push Pull Legs',
+        splitDescription: 'Classic PPL split. Push day targets chest, shoulders and triceps. Pull day targets back and biceps. Leg day targets quads, hamstrings and calves.',
+        schedule: [
+          { day: 'Monday', focus: 'Push — Chest, Shoulders, Triceps', bodyParts: ['chest', 'shoulders'], isRest: false },
+          { day: 'Tuesday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Wednesday', focus: 'Pull — Back, Biceps', bodyParts: ['back', 'upper arms'], isRest: false },
+          { day: 'Thursday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Friday', focus: 'Legs — Quads, Hamstrings, Calves', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Saturday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      },
+
+      '3_strength': {
+        days: 3,
+        goal,
+        splitName: 'Full Body Strength',
+        splitDescription: 'Three full body sessions focused on compound movements. Perfect for building strength with adequate recovery between sessions.',
+        schedule: [
+          { day: 'Monday', focus: 'Full Body — Compound Focus', bodyParts: ['chest', 'back', 'legs'], isRest: false },
+          { day: 'Tuesday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Wednesday', focus: 'Full Body — Compound Focus', bodyParts: ['chest', 'back', 'legs'], isRest: false },
+          { day: 'Thursday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Friday', focus: 'Full Body — Compound Focus', bodyParts: ['chest', 'back', 'legs'], isRest: false },
+          { day: 'Saturday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      },
+
+      '4_any': {
+        days: 4,
+        goal,
+        splitName: 'Upper Lower Split',
+        splitDescription: 'Alternates between upper body and lower body sessions. Great balance between volume and recovery. Each muscle group trained twice per week.',
+        schedule: [
+          { day: 'Monday', focus: 'Upper Body — Chest, Back, Shoulders, Arms', bodyParts: ['chest', 'back', 'shoulders', 'upper arms'], isRest: false },
+          { day: 'Tuesday', focus: 'Lower Body — Quads, Hamstrings, Calves', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Wednesday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Thursday', focus: 'Upper Body — Chest, Back, Shoulders, Arms', bodyParts: ['chest', 'back', 'shoulders', 'upper arms'], isRest: false },
+          { day: 'Friday', focus: 'Lower Body — Quads, Hamstrings, Calves', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Saturday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      },
+
+      '5_build': {
+        days: 5,
+        goal,
+        splitName: 'Bro Split',
+        splitDescription: 'Classic bodybuilding split. Each muscle group gets its own dedicated day for maximum volume and focus. Best for intermediate to advanced lifters.',
+        schedule: [
+          { day: 'Monday', focus: 'Chest Day', bodyParts: ['chest'], isRest: false },
+          { day: 'Tuesday', focus: 'Back Day', bodyParts: ['back'], isRest: false },
+          { day: 'Wednesday', focus: 'Shoulders Day', bodyParts: ['shoulders'], isRest: false },
+          { day: 'Thursday', focus: 'Arms Day — Biceps & Triceps', bodyParts: ['upper arms'], isRest: false },
+          { day: 'Friday', focus: 'Legs Day', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Saturday', focus: 'Rest', bodyParts: [], isRest: true },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      },
+
+      '6_build': {
+        days: 6,
+        goal,
+        splitName: 'Advanced PPL',
+        splitDescription: 'Push Pull Legs done twice per week. Maximum volume for each muscle group. Best for advanced lifters who can handle high training frequency.',
+        schedule: [
+          { day: 'Monday', focus: 'Push — Chest, Shoulders, Triceps', bodyParts: ['chest', 'shoulders'], isRest: false },
+          { day: 'Tuesday', focus: 'Pull — Back, Biceps', bodyParts: ['back', 'upper arms'], isRest: false },
+          { day: 'Wednesday', focus: 'Legs', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Thursday', focus: 'Push — Chest, Shoulders, Triceps', bodyParts: ['chest', 'shoulders'], isRest: false },
+          { day: 'Friday', focus: 'Pull — Back, Biceps', bodyParts: ['back', 'upper arms'], isRest: false },
+          { day: 'Saturday', focus: 'Legs', bodyParts: ['upper legs', 'lower legs'], isRest: false },
+          { day: 'Sunday', focus: 'Rest', bodyParts: [], isRest: true },
+        ]
+      }
     };
-    return splits[split] || [];
+
+    const key = `${days}_${goal}`;
+    return plans[key] || plans[`${days}_any`] || plans['3_build'];
   }
 
-  getWorkoutLogs(): WorkoutLog[] {
-    const logs = localStorage.getItem('maquatrack_workouts');
-    return logs ? JSON.parse(logs) : [];
-  }
-
-  saveWorkoutLog(log: WorkoutLog): void {
-    const logs = this.getWorkoutLogs();
-    logs.push(log);
-    localStorage.setItem('maquatrack_workouts', JSON.stringify(logs));
-  }
-
-  getChallenges(): Challenge[] {
-    const saved = localStorage.getItem('maquatrack_challenges');
-    if (saved) return JSON.parse(saved);
-
-    const defaults: Challenge[] = [
-      { id: 1, title: '💧 Hydration Hero', description: 'Hit your water goal 3 days in a row', exp: 50, completed: false, icon: '💧' },
-      { id: 2, title: '🏃 10K Runner', description: 'Run or walk 10km total', exp: 100, completed: false, icon: '🏃' },
-      { id: 3, title: '💪 First Workout', description: 'Log your first workout', exp: 30, completed: false, icon: '💪' },
-      { id: 4, title: '🔥 3-Day Streak', description: 'Log in 3 days in a row', exp: 40, completed: false, icon: '🔥' },
-      { id: 5, title: '📅 Weekly Planner', description: 'Plan your full week on the calendar', exp: 20, completed: false, icon: '📅' },
-      { id: 6, title: '🏋️ Heavy Lifter', description: 'Log a workout with 5+ exercises', exp: 60, completed: false, icon: '🏋️' },
-    ];
-    localStorage.setItem('maquatrack_challenges', JSON.stringify(defaults));
-    return defaults;
-  }
-
-  completeChallenge(id: number): Challenge[] {
-    const challenges = this.getChallenges();
-    const updated = challenges.map(c => c.id === id ? { ...c, completed: true } : c);
-    localStorage.setItem('maquatrack_challenges', JSON.stringify(updated));
-    return updated;
+  getSetsAndReps(goal: string): { sets: number; reps: string; rest: string } {
+    if (goal === 'strength') return { sets: 5, reps: '3-5', rest: '3-5 min' };
+    if (goal === 'build') return { sets: 4, reps: '8-12', rest: '60-90 sec' };
+    if (goal === 'lose') return { sets: 3, reps: '15-20', rest: '30-45 sec' };
+    return { sets: 3, reps: '10-15', rest: '60 sec' };
   }
 }

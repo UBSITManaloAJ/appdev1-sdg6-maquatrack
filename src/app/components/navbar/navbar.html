@@ -1,23 +1,18 @@
-<header class="navbar">
+<header class="navbar" *ngIf="authService.isLoggedIn()">
   <div class="brand">
-    <span class="brand-icon">💧</span>
-    <span class="brand-name">MaquaTrack <span class="brand-ph">PH</span></span>
+    <span class="brand-icon">🏋️</span>
+    <span class="brand-name">Marhaba <span class="brand-ph">PH</span></span>
   </div>
 
-  <nav *ngIf="authService.isLoggedIn()">
-    <a routerLink="/home"       routerLinkActive="active">Home</a>
-    <a routerLink="/dashboard"  routerLinkActive="active">Dashboard</a>
-    <a routerLink="/workout"    routerLinkActive="active">Workout</a>
-    <a routerLink="/tracker"    routerLinkActive="active">Water</a>
-    <a routerLink="/calendar"   routerLinkActive="active">Calendar</a>
-    <a routerLink="/challenges" routerLinkActive="active">Challenges</a>
-    <a routerLink="/sdg-info"   routerLinkActive="active">SDG</a>
+  <nav>
+    <a routerLink="/home"      routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/planner"   routerLinkActive="active">Planner</a>
+    <a routerLink="/exercises" routerLinkActive="active">Exercises</a>
+    <a routerLink="/about"     routerLinkActive="active">About</a>
   </nav>
 
-  <div class="navbar-right" *ngIf="authService.isLoggedIn()">
-    <span class="rank-badge">{{ authService.getRank() }}</span>
-    <span class="exp-badge">{{ authService.getExp() }} EXP</span>
-    <span class="username">{{ authService.getUsername() }}</span>
+  <div class="navbar-right">
+    <span class="username">👤 {{ authService.getUsername() }}</span>
     <button class="btn-logout" (click)="logout()">Logout</button>
   </div>
 </header>

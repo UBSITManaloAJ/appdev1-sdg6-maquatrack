@@ -1,0 +1,47 @@
+<div class="exercises">
+  <div class="exercises-header">
+    <h1>💪 Exercise Library</h1>
+    <p>Browse exercises with GIF demonstrations</p>
+  </div>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      [ngModel]="searchQuery()"
+      (ngModelChange)="searchQuery.set($event); search()"
+      placeholder="Search exercises... (e.g. bench press)" />
+  </div>
+
+  <div class="body-part-tabs">
+    <button
+      *ngFor="let bp of bodyPartList"
+      class="bp-tab"
+      [class.active]="selectedBodyPart() === bp"
+      (click)="loadExercises(bp)">
+      {{ bp | titlecase }}
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="isLoading()">
+    <div class="spinner"></div>
+    <p>Loading exercises...</p>
+  </div>
+
+  <div class="exercises-grid" *ngIf="!isLoading()">
+    <div
+      *ngFor="let ex of exerciseList"
+      class="exercise-card"
+      (click)="goToDetail(ex.id)">
+      <div class="exercise-gif">
+        <img [src]="ex.gifUrl" [alt]="ex.name" loading="lazy" />
+      </div>
+      <div class="exercise-info">
+        <h3>{{ ex.name | titlecase }}</h3>
+        <div class="exercise-tags">
+          <span class="tag target">{{ ex.target | titlecase }}</span>
+          <span class="tag equipment">{{ ex.equipment | titlecase }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

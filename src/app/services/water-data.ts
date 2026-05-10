@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, map } from 'rxjs';
-import { WaterData } from '../models/water-data.model';
+
+export interface WaterData {
+  country: string;
+  region: string;
+  population: number;
+  flag: string;
+  capital: string;
+}
 
 @Injectable({
   providedIn: 'root'

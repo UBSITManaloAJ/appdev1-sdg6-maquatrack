@@ -124,7 +124,6 @@ export class Calendar {
     });
     this.entries.set(updated);
     localStorage.setItem('marhaba_entries', JSON.stringify(updated));
-    this.authService.addExp(15);
     this.showModal.set(false);
     this.saved.set(true);
     setTimeout(() => this.saved.set(false), 3000);

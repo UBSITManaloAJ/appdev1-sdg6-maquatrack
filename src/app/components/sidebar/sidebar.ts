@@ -12,8 +12,5 @@ import { CommonModule } from '@angular/common';
 })
 export class Sidebar {
   constructor(public authService: AuthService) {}
-
-  logout(): void {
-    this.authService.logout();
-  }
+  logout(): void { this.authService.logout(); }
 }

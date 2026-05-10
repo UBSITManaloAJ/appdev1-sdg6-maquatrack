@@ -31,6 +31,8 @@ export class Signup {
     const success = this.authService.signup(this.username, this.password);
     if (success) {
       this.router.navigate(['/home']);
+    } else {
+      this.error = 'Username already taken. Please choose another.';
     }
   }
 }
