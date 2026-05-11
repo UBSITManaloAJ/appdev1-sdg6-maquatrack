@@ -8,60 +8,47 @@ export class AuthService {
   constructor(private router: Router) {}
 
   login(username: string, password: string): boolean {
-    if (username && password) {
-      localStorage.setItem('maquatrack_user', username);
-      localStorage.setItem('maquatrack_exp', '0');
-      localStorage.setItem('maquatrack_streak', '1');
-      this.addExp(5);
+    const users = this.getUsers();
+    const user = users.find(
+      (u: any) => u.username === username && u.password === password
+    );
+    if (user) {
+      localStorage.setItem('marhaba_user', username);
       return true;
     }
     return false;
   }
 
   signup(username: string, password: string): boolean {
-    if (username && password) {
-      localStorage.setItem('maquatrack_user', username);
-      localStorage.setItem('maquatrack_exp', '0');
-      localStorage.setItem('maquatrack_streak', '0');
-      return true;
-    }
-    return false;
+    const users = this.getUsers();
+    const exists = users.find((u: any) => u.username === username);
+    if (exists) return false;
+    users.push({ username, password });
+    localStorage.setItem('marhaba_accounts', JSON.stringify(users));
+    localStorage.setItem('marhaba_user', username);
+    return true;
   }
 
   logout(): void {
-    localStorage.removeItem('maquatrack_user');
+    localStorage.removeItem('marhaba_user');
     this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('maquatrack_user');
+    return !!localStorage.getItem('marhaba_user');
   }
 
   getUsername(): string {
-    return localStorage.getItem('maquatrack_user') || 'User';
+    return localStorage.getItem('marhaba_user') || 'User';
   }
 
-  getExp(): number {
-    return parseInt(localStorage.getItem('maquatrack_exp') || '0');
-  }
+  getRank(): string { return ''; }
+  getExp(): number { return 0; }
+  getStreak(): number { return 0; }
+  addExp(amount: number): void {}
 
-  addExp(amount: number): void {
-    const current = this.getExp();
-    localStorage.setItem('maquatrack_exp', (current + amount).toString());
-  }
-
-  getRank(): string {
-    const exp = this.getExp();
-    if (exp >= 2000) return '👑 Elite';
-    if (exp >= 1500) return '💎 Platinum';
-    if (exp >= 1000) return '🥇 Gold';
-    if (exp >= 600)  return '🥈 Silver';
-    if (exp >= 300)  return '🥉 Bronze';
-    if (exp >= 100)  return '⚙️ Iron';
-    return '🩶 Beginner';
-  }
-
-  getStreak(): number {
-    return parseInt(localStorage.getItem('maquatrack_streak') || '0');
+  private getUsers(): any[] {
+    const users = localStorage.getItem('marhaba_accounts');
+    return users ? JSON.parse(users) : [];
   }
 }

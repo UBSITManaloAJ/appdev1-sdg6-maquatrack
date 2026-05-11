@@ -1,0 +1,57 @@
+<div class="exercise-detail">
+  <a routerLink="/exercises" class="btn-back">← Back to Exercises</a>
+
+  <div class="loading" *ngIf="isLoading()">
+    <div class="spinner"></div>
+    <p>Loading exercise...</p>
+  </div>
+
+  <div class="detail-content" *ngIf="!isLoading() && exercise()">
+    <div class="detail-left">
+      <div class="gif-container">
+        <img [src]="exercise()!.gifUrl" [alt]="exercise()!.name" />
+      </div>
+      <div class="muscle-tags">
+        <div class="tag-group">
+          <span class="tag-label">Target Muscle</span>
+          <span class="tag target">{{ exercise()!.target | titlecase }}</span>
+        </div>
+        <div class="tag-group" *ngIf="exercise()!.secondaryMuscles && exercise()!.secondaryMuscles.length > 0">
+          <span class="tag-label">Secondary</span>
+          <span class="tag secondary" *ngFor="let m of exercise()!.secondaryMuscles">
+            {{ m | titlecase }}
+          </span>
+        </div>
+        <div class="tag-group">
+          <span class="tag-label">Equipment</span>
+          <span class="tag equipment">{{ exercise()!.equipment | titlecase }}</span>
+        </div>
+        <div class="tag-group">
+          <span class="tag-label">Body Part</span>
+          <span class="tag bodypart">{{ exercise()!.bodyPart | titlecase }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-right">
+      <h1>{{ exercise()!.name | titlecase }}</h1>
+
+      <div class="instructions-card">
+        <h2>📋 Instructions</h2>
+        <ol class="instructions-list">
+          <li *ngFor="let step of exercise()!.instructions">{{ step }}</li>
+        </ol>
+      </div>
+
+      <div class="tips-card">
+        <h2>💡 Tips</h2>
+        <ul>
+          <li>Focus on proper form before adding weight</li>
+          <li>Control the movement — avoid using momentum</li>
+          <li>Breathe out on exertion, breathe in on return</li>
+          <li>Start with lighter weight to warm up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,32 +6,20 @@
 
   <nav class="sidebar-nav">
     <a routerLink="/home" routerLinkActive="active" class="nav-item">
-     <img [src]="'http://localhost:4200/icon/home.png'" class="nav-icon-img" alt="home" />
+      <img src="/icon/home.png" class="nav-icon-img" alt="home" />
       <span class="nav-label">Home</span>
     </a>
-    <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
-      <img src="icon/dashboard.png" class="nav-icon-img" alt="dashboard" />
-      <span class="nav-label">Dashboard</span>
+    <a routerLink="/planner" routerLinkActive="active" class="nav-item">
+      <img src="/icon/calendar.png" class="nav-icon-img" alt="planner" />
+      <span class="nav-label">Planner</span>
     </a>
-    <a routerLink="/workout" routerLinkActive="active" class="nav-item">
-      <img src="icon/training.png" class="nav-icon-img" alt="workout" />
-      <span class="nav-label">Workout</span>
+    <a routerLink="/exercises" routerLinkActive="active" class="nav-item">
+      <img src="/icon/training.png" class="nav-icon-img" alt="exercises" />
+      <span class="nav-label">Exercises</span>
     </a>
-    <a routerLink="/tracker" routerLinkActive="active" class="nav-item">
-      <img src="icon/water.png" class="nav-icon-img" alt="hydration" />
-      <span class="nav-label">Hydration</span>
-    </a>
-    <a routerLink="/calendar" routerLinkActive="active" class="nav-item">
-      <img src="icon/calendar.png" class="nav-icon-img" alt="calendar" />
-      <span class="nav-label">Calendar</span>
-    </a>
-    <a routerLink="/challenges" routerLinkActive="active" class="nav-item">
-      <img src="icon/target.png" class="nav-icon-img" alt="challenges" />
-      <span class="nav-label">Challenges</span>
-    </a>
-    <a routerLink="/sdg-info" routerLinkActive="active" class="nav-item">
-      <span class="nav-icon">🌍</span>
-      <span class="nav-label">SDG Info</span>
+    <a routerLink="/about" routerLinkActive="active" class="nav-item">
+      <img src="/icon/target.png" class="nav-icon-img" alt="about" />
+      <span class="nav-label">About</span>
     </a>
   </nav>
 
@@ -42,20 +30,9 @@
       </div>
       <div class="user-details">
         <span class="user-name">{{ authService.getUsername() }}</span>
-        <span class="user-rank">{{ authService.getRank() }}</span>
+        <span class="user-sub">Gym Member</span>
       </div>
     </div>
-
-    <div class="exp-bar">
-      <div class="exp-label">
-        <span>EXP</span>
-        <span>{{ authService.getExp() }}</span>
-      </div>
-      <div class="exp-track">
-        <div class="exp-fill" [style.width.%]="(authService.getExp() % 100)"></div>
-      </div>
-    </div>
-
     <button class="btn-logout" (click)="logout()">
       <span>🚪</span>
       <span>Logout</span>

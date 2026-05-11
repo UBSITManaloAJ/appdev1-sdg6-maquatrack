@@ -1,0 +1,80 @@
+<div class="planner">
+
+  <!-- No Plan State -->
+  <div class="no-plan" *ngIf="!hasPlan()">
+    <div class="no-plan-icon">📋</div>
+    <h2>No workout plan yet</h2>
+    <p>Go to Home and select your training days and goal to generate your personalized plan.</p>
+    <button class="btn-create" (click)="goHome()">Create My Plan →</button>
+  </div>
+
+  <!-- Plan exists -->
+  <div *ngIf="hasPlan() && plan()">
+    <div class="planner-hero">
+      <div class="planner-hero-content">
+        <div class="plan-tag">Your Workout Plan</div>
+        <h1>{{ plan()!.splitName }}</h1>
+        <p>{{ plan()!.splitDescription }}</p>
+        <div class="plan-badges">
+          <span class="badge blue">{{ plan()!.days }} Days/Week</span>
+          <span class="badge gray">{{ plan()!.goal | titlecase }}</span>
+          <span class="badge gray">{{ setsReps.sets }} sets × {{ setsReps.reps }} reps</span>
+          <span class="badge gray">{{ setsReps.rest }} rest</span>
+        </div>
+      </div>
+      <button class="btn-back" (click)="goHome()">← Change Plan</button>
+    </div>
+
+    <div class="schedule-section">
+      <h2>Weekly Schedule</h2>
+      <p class="hint">Click on a training day to load exercises</p>
+
+      <div class="days-grid">
+        <div
+          *ngFor="let day of plan()!.schedule"
+          class="day-card"
+          [class]="getDayClass(day)"
+          [class.selected]="selectedDay() === day"
+          [class.clickable]="!day.isRest"
+          (click)="selectDay(day)">
+          <span class="day-name">{{ day.day }}</span>
+          <span class="day-focus">{{ day.focus }}</span>
+          <span class="day-pill" *ngIf="!day.isRest">Training</span>
+          <span class="day-pill rest" *ngIf="day.isRest">Rest</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exercises for selected day -->
+    <div class="exercises-section" *ngIf="selectedDay() && !selectedDay().isRest">
+      <div class="exercises-top">
+        <div>
+          <h2>{{ selectedDay().focus }}</h2>
+          <p>Suggested exercises for this session</p>
+        </div>
+        <a routerLink="/exercises" class="btn-browse">Browse Full Library →</a>
+      </div>
+
+      <div class="loading-box" *ngIf="loadingExercises()">
+        <div class="spinner"></div>
+        <p>Loading exercises...</p>
+      </div>
+
+      <div class="ex-grid" *ngIf="!loadingExercises()">
+  <div
+    *ngFor="let ex of exerciseList"
+    class="ex-card"
+    [routerLink]="['/exercises', ex.id]"
+    style="cursor:pointer">
+    <div class="ex-gif">
+      <img [src]="ex.gifUrl" [alt]="ex.name" loading="lazy" />
+    </div>
+    <div class="ex-info">
+      <h3>{{ ex.name | titlecase }}</h3>
+      <div class="ex-tags">
+        <span class="tag blue">{{ ex.target | titlecase }}</span>
+        <span class="tag gray">{{ ex.equipment | titlecase }}</span>
+      </div>
+    </div>
+  </div>
+</div>

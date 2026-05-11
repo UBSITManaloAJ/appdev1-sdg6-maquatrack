@@ -1,77 +1,76 @@
 <div class="home">
-<div class="hero">
-  <img src="bg.jpg" class="hero-bg" alt="hero background" />
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-badge">SDG 3 — Good Health & Well-being 💪</div>
-    <h1>BE FIT<br><span>BE STRONGER</span></h1>
-    <p>Marhaba PH — your personal fitness companion. No audience needed. Just you vs. you.</p>
-    <div class="hero-buttons">
-      <a routerLink="/workout" class="btn-primary">Start Workout 💪</a>
-      <a routerLink="/challenges" class="btn-secondary">View Challenges 🏆</a>
-    </div>
-  </div>
-</div>
-
-  <div class="stats-bar">
-    <div class="stat">
-      <span class="stat-value">{{ authService.getExp() }}</span>
-      <span class="stat-label">Total EXP</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">{{ authService.getRank() }}</span>
-      <span class="stat-label">Current Rank</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">{{ authService.getStreak() }}</span>
-      <span class="stat-label">Day Streak 🔥</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">{{ workoutsLogged }}</span>
-      <span class="stat-label">Workouts Logged</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">{{ challengesCompleted }}</span>
-      <span class="stat-label">Challenges Done</span>
+  <div class="hero">
+    <img src="hero-bg.jpg" class="hero-bg" alt="hero" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">SDG 3 — Good Health & Well-being 💪</div>
+      <h1>Plan Smarter.<br><span>Train Better.</span></h1>
+      <p>Get a personalized workout plan based on your schedule and goals. No confusion, just results.</p>
     </div>
   </div>
 
-  <div class="features">
-    <a routerLink="/workout" class="feature-card">
-      <span class="feature-icon">💪</span>
-      <h3>Workout Logger</h3>
-      <p>Log exercises, track sets, reps and weight. Get split suggestions.</p>
-      <span class="feature-exp">+30 EXP per workout</span>
-    </a>
-    <a routerLink="/calendar" class="feature-card">
-      <span class="feature-icon">📅</span>
-      <h3>Gym Calendar</h3>
-      <p>Plan your weekly gym schedule and never miss a session.</p>
-      <span class="feature-exp">+15 EXP per plan</span>
-    </a>
-    <a routerLink="/challenges" class="feature-card">
-      <span class="feature-icon">🏆</span>
-      <h3>Challenges</h3>
-      <p>Complete personal fitness challenges and earn bonus EXP.</p>
-      <span class="feature-exp">+50 EXP per challenge</span>
-    </a>
-    <a routerLink="/tracker" class="feature-card">
-      <span class="feature-icon">💧</span>
-      <h3>Hydration</h3>
-      <p>Log your daily water intake to stay hydrated during training.</p>
-      <span class="feature-exp">+10 EXP per goal</span>
-    </a>
-    <a routerLink="/dashboard" class="feature-card">
-      <span class="feature-icon">📊</span>
-      <h3>Global Health Data</h3>
-      <p>Explore population health data from countries across Asia.</p>
-      <span class="feature-exp">SDG 3 Awareness</span>
-    </a>
-    <a routerLink="/sdg-info" class="feature-card">
-      <span class="feature-icon">🌍</span>
-      <h3>SDG 3 Info</h3>
-      <p>Learn how fitness connects to UN Sustainable Development Goal 3.</p>
-      <span class="feature-exp">Good Health & Well-being</span>
-    </a>
+  <div class="planner-section">
+
+    <!-- Step 1: Choose Days -->
+    <div class="step-card" *ngIf="step() === 1">
+      <div class="step-header">
+        <span class="step-num">01</span>
+        <div>
+          <h2>How many days can you train?</h2>
+          <p>Choose based on your weekly schedule</p>
+        </div>
+      </div>
+      <div class="options-grid">
+        <button
+          *ngFor="let d of days"
+          class="option-btn"
+          [class.selected]="selectedDays() === d.value"
+          (click)="selectDays(d.value)">
+          <span class="option-value">{{ d.label }}</span>
+          <span class="option-sub">{{ d.sub }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Choose Goal -->
+    <div class="step-card" *ngIf="step() === 2">
+      <div class="step-header">
+        <span class="step-num">02</span>
+        <div>
+          <h2>What is your main goal?</h2>
+          <p>We'll customize your plan accordingly</p>
+        </div>
+      </div>
+      <div class="options-grid">
+        <button
+          *ngFor="let g of goals"
+          class="option-btn goal-btn"
+          [class.selected]="selectedGoal() === g.value"
+          (click)="selectGoal(g.value)">
+          <span class="option-value">{{ g.label }}</span>
+          <span class="option-sub">{{ g.sub }}</span>
+        </button>
+      </div>
+      <button class="btn-back" (click)="reset()">← Back</button>
+    </div>
+
+  </div>
+
+  <div class="info-section">
+    <div class="info-card">
+      <span>📅</span>
+      <h3>Smart Scheduling</h3>
+      <p>Get the optimal split based on your available days per week.</p>
+    </div>
+    <div class="info-card">
+      <span>🎯</span>
+      <h3>Goal Based</h3>
+      <p>Plans tailored for muscle gain, strength, fat loss or fitness.</p>
+    </div>
+    <div class="info-card">
+      <span>💪</span>
+      <h3>Exercise Library</h3>
+      <p>Browse hundreds of exercises with GIF demonstrations.</p>
+    </div>
   </div>
 </div>

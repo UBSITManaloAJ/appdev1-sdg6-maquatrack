@@ -31,7 +31,7 @@ export class Login {
     if (success) {
       this.router.navigate(['/home']);
     } else {
-      this.error = 'Invalid credentials.';
+      this.error = 'Account not found. Please sign up first.';
     }
   }
 }

@@ -1,9 +1,8 @@
-<div class="app-layout" *ngIf="authService.isLoggedIn()">
-  <app-sidebar></app-sidebar>
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<app-navbar></app-navbar>
+
+<main class="main-content" *ngIf="authService.isLoggedIn()">
+  <router-outlet></router-outlet>
+</main>
 
 <div *ngIf="!authService.isLoggedIn()">
   <router-outlet></router-outlet>
