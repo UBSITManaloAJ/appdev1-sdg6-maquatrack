@@ -21,14 +21,20 @@
 
   <!-- SPLIT BUILDER TAB -->
   <div *ngIf="activeTab() === 'split'">
+
+    <!-- Auto-filled banner -->
+    <div class="autofill-banner" *ngIf="hasPlanner()">
+      <span>✨ Split auto-filled from your Planner! You can edit it below.</span>
+    </div>
+
     <div class="section-card">
-      <h2>Your Split Name</h2>
-      <input type="text" [(ngModel)]="splitName" placeholder="e.g. Upper / Anterior / Posterior" />
+      <h2>Split Name</h2>
+      <input type="text" [(ngModel)]="splitName" placeholder="e.g. Push Pull Legs, Upper/Anterior/Posterior" />
     </div>
 
     <div class="section-card">
       <h2>Training Days</h2>
-      <p class="hint">Add the days in your split</p>
+      <p class="hint">These are the sessions in your split</p>
 
       <div class="days-list" *ngIf="days.length > 0">
         <div class="day-item" *ngFor="let day of days">
@@ -37,7 +43,9 @@
             <span class="day-item-focus" *ngIf="day.focus">{{ day.focus }}</span>
           </div>
           <div class="day-item-actions">
-            <button class="btn-log-day" (click)="selectDay(day); activeTab.set('log')">Log This Day →</button>
+            <button class="btn-log-day" (click)="loadExercisesForDay(day); activeTab.set('log')">
+              Log This Day →
+            </button>
             <button class="btn-remove-day" (click)="removeDay(day.id)">✕</button>
           </div>
         </div>
@@ -48,10 +56,11 @@
       </div>
 
       <div class="add-day-form">
-        <h3>+ Add Training Day</h3>
+        <h3>+ Add Custom Day</h3>
         <div class="add-day-inputs">
-          <input type="text" [(ngModel)]="newDayName" placeholder="Day name (e.g. Upper, Anterior, Push)" />
-          <input type="text" [(ngModel)]="newDayFocus" placeholder="Focus (e.g. Chest, Back, Shoulders)" />
+          <input type="text" [(ngModel)]="newDayName" placeholder="Day name (e.g. Upper, Push, Chest)" />
+          <input type="text" [(ngModel)]="newDayFocus" placeholder="Focus description (e.g. Chest, Back, Shoulders)" />
+          <input type="text" [(ngModel)]="newDayBodyParts" placeholder="Body parts for API (e.g. chest, back)" />
           <button class="btn-add-day" (click)="addDay()">Add Day</button>
         </div>
       </div>
@@ -73,11 +82,9 @@
         <span class="cal-title">{{ currentMonthYear }}</span>
         <button class="cal-nav" (click)="nextMonth()">›</button>
       </div>
-
       <div class="cal-header">
         <span *ngFor="let d of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ d }}</span>
       </div>
-
       <div class="cal-grid">
         <div
           *ngFor="let day of calendarDays"
@@ -106,7 +113,7 @@
         <h2>Select Training Day</h2>
         <p class="hint">Which session are you doing today?</p>
         <div class="day-select-grid">
-          <div *ngFor="let day of days" class="day-select-card" (click)="selectDay(day)">
+          <div *ngFor="let day of days" class="day-select-card" (click)="loadExercisesForDay(day)">
             <span class="day-select-name">{{ day.name }}</span>
             <span class="day-select-focus" *ngIf="day.focus">{{ day.focus }}</span>
             <div class="last-session" *ngIf="getLastSession(day.name) as last">
@@ -125,7 +132,7 @@
             <h2>{{ selectedDay()!.name }}</h2>
             <p *ngIf="selectedDay()!.focus">{{ selectedDay()!.focus }}</p>
           </div>
-          <button class="btn-cancel" (click)="selectedDay.set(null)">← Change Day</button>
+          <button class="btn-cancel" (click)="selectedDay.set(null); apiExercises = []">← Change Day</button>
         </div>
 
         <!-- Previous session reference -->
@@ -145,13 +152,51 @@
         <!-- Add exercise form -->
         <div class="section-card">
           <h2>➕ Add Exercise</h2>
-          <div class="ex-form">
-            <div class="ex-form-row">
-              <div class="ex-form-group full">
-                <label>Exercise Name</label>
-                <input type="text" [(ngModel)]="newExerciseName" placeholder="e.g. Pec Deck, Incline Smith Press" />
-              </div>
+
+          <!-- Toggle -->
+          <div class="exercise-toggle">
+            <button
+              class="toggle-btn"
+              [class.active]="!useCustomExercise()"
+              (click)="useCustomExercise.set(false)">
+              📋 From Library
+            </button>
+            <button
+              class="toggle-btn"
+              [class.active]="useCustomExercise()"
+              (click)="useCustomExercise.set(true)">
+              ✏️ Custom
+            </button>
+          </div>
+
+          <!-- API Dropdown -->
+          <div *ngIf="!useCustomExercise()">
+            <div class="loading-ex" *ngIf="loadingExercises()">
+              <div class="spinner-sm"></div>
+              <span>Loading exercises...</span>
             </div>
+            <div *ngIf="!loadingExercises()">
+              <label>Select Exercise</label>
+              <select [(ngModel)]="selectedExerciseFromApi" (ngModelChange)="newExerciseName = $event">
+                <option value="">Choose an exercise...</option>
+                <option *ngFor="let ex of apiExercises" [value]="ex.name | titlecase">
+                  {{ ex.name | titlecase }} — {{ ex.target | titlecase }}
+                </option>
+              </select>
+              <p class="no-api-hint" *ngIf="apiExercises.length === 0 && selectedDay()!.bodyParts.length === 0">
+                No body parts set for this day. Add body parts in My Split to get exercise suggestions.
+              </p>
+            </div>
+          </div>
+
+          <!-- Custom input -->
+          <div *ngIf="useCustomExercise()">
+            <label>Exercise Name</label>
+            <input type="text" [(ngModel)]="newExerciseName" placeholder="e.g. Pec Deck, Incline Smith Press, Recline Curl" />
+          </div>
+
+          <!-- Sets/Reps/Weight -->
+          <div class="ex-form">
             <div class="ex-form-row">
               <div class="ex-form-group">
                 <label>Sets</label>
@@ -169,7 +214,7 @@
             <div class="ex-form-row">
               <div class="ex-form-group full">
                 <label>Notes (optional)</label>
-                <input type="text" [(ngModel)]="newNote" placeholder="e.g. Next target: 50 lbs" />
+                <input type="text" [(ngModel)]="newNote" placeholder="e.g. Next target: 50 lbs, FS + 10 lbs" />
               </div>
             </div>
             <button class="btn-add-ex" (click)="addExercise()">Add Exercise</button>
@@ -237,7 +282,6 @@
         </div>
         <button class="modal-close" (click)="closeModal()">✕</button>
       </div>
-
       <div class="modal-body">
         <div class="modal-ex" *ngFor="let ex of selectedSession()?.exercises">
           <div class="modal-ex-name">{{ ex.name }}</div>
@@ -249,11 +293,8 @@
           <p class="modal-note" *ngIf="ex.note">📌 {{ ex.note }}</p>
         </div>
       </div>
-
       <div class="modal-footer">
-        <button class="btn-delete-modal" (click)="deleteSession(selectedSession()!.id)">
-          🗑️ Delete Session
-        </button>
+        <button class="btn-delete-modal" (click)="deleteSession(selectedSession()!.id)">🗑️ Delete</button>
         <button class="btn-close-modal" (click)="closeModal()">Close</button>
       </div>
     </div>

@@ -1,7 +1,7 @@
-# Marhaba PH 🏋️
+# Marhaba Fitness 
 
 ## Overview
-Marhaba PH is a personal fitness tracking web application built with Angular.
+Marhaba Fitness is a personal fitness tracking web application built with Angular.
 It supports the United Nations Sustainable Development Goal:
 - **SDG 3** — Good Health and Well-being
 
@@ -32,7 +32,7 @@ It supports the United Nations Sustainable Development Goal:
 
 ## SDG Alignment
 **SDG 3 — Good Health and Well-being**
-Marhaba PH promotes regular exercise through workout logging,
+Marhaba Fitness promotes regular exercise through workout logging,
 split suggestions, challenges, and a gamified EXP rank system
 that motivates users to stay consistent with their fitness journey.
 The hydration tracker supports physical performance during training.

@@ -100,20 +100,27 @@
 .badge.gray { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
 
 .btn-change {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.7);
+  background: white;
+  border: none;
+  color: #1a1a1a;
   padding: 10px 20px;
   border-radius: 10px;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-.btn-change:hover { background: rgba(255,255,255,0.15); color: white; }
-
+.btn-change:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 /* Schedule */
 .schedule-section { margin-bottom: 32px; }
 

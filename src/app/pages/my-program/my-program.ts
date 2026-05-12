@@ -1,11 +1,14 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ExerciseService } from '../../services/exercise';
+import { Exercise } from '../../models/water-data.model';
 
 interface CustomDay {
   id: number;
   name: string;
   focus: string;
+  bodyParts: string[];
 }
 
 interface ExerciseSet {
@@ -35,7 +38,7 @@ interface WorkoutSession {
   templateUrl: './my-program.html',
   styleUrl: './my-program.css'
 })
-export class MyProgram {
+export class MyProgram implements OnInit {
   activeTab = signal<'split' | 'log' | 'history'>('split');
 
   // Split builder
@@ -43,7 +46,9 @@ export class MyProgram {
   days: CustomDay[] = [];
   newDayName = '';
   newDayFocus = '';
+  newDayBodyParts = '';
   splitSaved = signal(false);
+  hasPlanner = signal(false);
 
   // Workout log
   sessions: WorkoutSession[] = [];
@@ -55,15 +60,45 @@ export class MyProgram {
   newWeight = '';
   newNote = '';
   logSaved = signal(false);
+  useCustomExercise = signal(false);
+
+  // Exercise dropdown
+  apiExercises: Exercise[] = [];
+  loadingExercises = signal(false);
+  selectedExerciseFromApi = '';
 
   // Calendar
   currentDate = signal(new Date());
   selectedSession = signal<WorkoutSession | null>(null);
   showModal = signal(false);
 
-  constructor() {
+  constructor(private exerciseService: ExerciseService) {}
+
+  ngOnInit() {
     this.loadSplit();
     this.loadSessions();
+    this.tryAutoFillFromPlanner();
+  }
+
+  tryAutoFillFromPlanner() {
+    const saved = localStorage.getItem('marhaba_custom_split');
+    if (saved) {
+      this.hasPlanner.set(true);
+      return;
+    }
+    const plan = localStorage.getItem('marhaba_plan');
+    if (!plan) return;
+    const parsed = JSON.parse(plan);
+    this.splitName = parsed.splitName || '';
+    this.days = parsed.schedule
+      .filter((d: any) => !d.isRest)
+      .map((d: any, i: number) => ({
+        id: i + 1,
+        name: d.focus.split('—')[0].trim(),
+        focus: d.bodyParts.join(', '),
+        bodyParts: d.bodyParts || []
+      }));
+    this.hasPlanner.set(true);
   }
 
   // ---- SPLIT BUILDER ----
@@ -78,9 +113,15 @@ export class MyProgram {
 
   addDay() {
     if (!this.newDayName) return;
-    this.days.push({ id: Date.now(), name: this.newDayName, focus: this.newDayFocus });
+    this.days.push({
+      id: Date.now(),
+      name: this.newDayName,
+      focus: this.newDayFocus,
+      bodyParts: this.newDayBodyParts ? this.newDayBodyParts.split(',').map(s => s.trim()) : []
+    });
     this.newDayName = '';
     this.newDayFocus = '';
+    this.newDayBodyParts = '';
   }
 
   removeDay(id: number) {
@@ -97,14 +138,34 @@ export class MyProgram {
     setTimeout(() => this.splitSaved.set(false), 3000);
   }
 
+  // ---- EXERCISE DROPDOWN ----
+  loadExercisesForDay(day: CustomDay) {
+    this.selectedDay.set(day);
+    this.apiExercises = [];
+    this.selectedExerciseFromApi = '';
+    this.useCustomExercise.set(false);
+    if (day.bodyParts && day.bodyParts.length > 0) {
+      this.loadingExercises.set(true);
+      this.exerciseService.getExercisesByBodyPart(day.bodyParts[0], 30).subscribe({
+        next: (data: Exercise[]) => {
+          this.apiExercises = data;
+          this.loadingExercises.set(false);
+        },
+        error: () => this.loadingExercises.set(false)
+      });
+    }
+  }
+
+  selectExerciseFromApi() {
+    if (this.selectedExerciseFromApi) {
+      this.newExerciseName = this.selectedExerciseFromApi;
+    }
+  }
+
   // ---- WORKOUT LOG ----
   loadSessions() {
     const saved = localStorage.getItem('marhaba_sessions');
     this.sessions = saved ? JSON.parse(saved) : [];
-  }
-
-  selectDay(day: CustomDay) {
-    this.selectedDay.set(day);
   }
 
   addExercise() {
@@ -120,6 +181,7 @@ export class MyProgram {
       note: this.newNote
     });
     this.newExerciseName = '';
+    this.selectedExerciseFromApi = '';
     this.newWeight = '';
     this.newNote = '';
   }
@@ -131,11 +193,10 @@ export class MyProgram {
   saveSession() {
     if (!this.selectedDay() || this.currentExercises.length === 0) return;
     const now = new Date();
-    const dateKey = this.formatDateKey(now);
     const session: WorkoutSession = {
       id: Date.now(),
       date: now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-      dateKey,
+      dateKey: this.formatDateKey(now),
       dayName: this.selectedDay()!.name,
       exercises: [...this.currentExercises]
     };
@@ -143,6 +204,7 @@ export class MyProgram {
     localStorage.setItem('marhaba_sessions', JSON.stringify(this.sessions));
     this.currentExercises = [];
     this.selectedDay.set(null);
+    this.apiExercises = [];
     this.logSaved.set(true);
     setTimeout(() => this.logSaved.set(false), 3000);
   }
@@ -184,8 +246,7 @@ export class MyProgram {
   }
 
   getSessionForDate(date: Date): WorkoutSession | undefined {
-    const key = this.formatDateKey(date);
-    return this.sessions.find(s => s.dateKey === key);
+    return this.sessions.find(s => s.dateKey === this.formatDateKey(date));
   }
 
   prevMonth() {
