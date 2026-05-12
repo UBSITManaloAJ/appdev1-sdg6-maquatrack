@@ -1,0 +1,12 @@
+<div class="ex-card" (click)="onClick()">
+  <div class="ex-gif">
+    <img [src]="exercise.gifUrl" [alt]="exercise.name + ' demonstration'" loading="lazy" />
+  </div>
+  <div class="ex-info">
+    <h3>{{ exercise.name | titlecase }}</h3>
+    <div class="ex-tags">
+      <span class="tag blue">{{ exercise.target | titlecase }}</span>
+      <span class="tag gray">{{ exercise.equipment | titlecase }}</span>
+    </div>
+  </div>
+</div>
