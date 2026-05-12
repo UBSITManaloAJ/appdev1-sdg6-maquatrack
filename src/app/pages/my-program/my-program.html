@@ -1,0 +1,251 @@
+<div class="my-program">
+
+  <div class="page-header">
+    <div>
+      <h1>🏋️ My Program</h1>
+      <p>Build your custom split and track your workouts</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      class="tab"
+      [class.active]="activeTab() === 'split'"
+      (click)="activeTab.set('split')">
+      📋 My Split
+    </button>
+    <button
+      class="tab"
+      [class.active]="activeTab() === 'log'"
+      (click)="activeTab.set('log')">
+      📝 Log Workout
+    </button>
+    <button
+      class="tab"
+      [class.active]="showHistory()"
+      (click)="showHistory.set(!showHistory())">
+      📊 History {{ sessions.length > 0 ? '(' + sessions.length + ')' : '' }}
+    </button>
+  </div>
+
+  <!-- SPLIT BUILDER TAB -->
+  <div *ngIf="activeTab() === 'split' && !showHistory()">
+    <div class="section-card">
+      <h2>Your Split Name</h2>
+      <input
+        type="text"
+        [(ngModel)]="splitName"
+        placeholder="e.g. Upper / Anterior / Posterior" />
+    </div>
+
+    <div class="section-card">
+      <h2>Training Days</h2>
+      <p class="hint">Add the days in your split</p>
+
+      <div class="days-list" *ngIf="days.length > 0">
+        <div class="day-item" *ngFor="let day of days">
+          <div class="day-item-info">
+            <span class="day-item-name">{{ day.name }}</span>
+            <span class="day-item-focus" *ngIf="day.focus">{{ day.focus }}</span>
+          </div>
+          <div class="day-item-actions">
+            <button class="btn-log-day" (click)="selectDay(day)">
+              Log This Day →
+            </button>
+            <button class="btn-remove-day" (click)="removeDay(day.id)">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-days" *ngIf="days.length === 0">
+        <p>No days added yet. Add your first training day below!</p>
+      </div>
+
+      <div class="add-day-form">
+        <h3>+ Add Training Day</h3>
+        <div class="add-day-inputs">
+          <input
+            type="text"
+            [(ngModel)]="newDayName"
+            placeholder="Day name (e.g. Upper, Anterior, Push)" />
+          <input
+            type="text"
+            [(ngModel)]="newDayFocus"
+            placeholder="Focus (e.g. Chest, Back, Shoulders)" />
+          <button class="btn-add-day" (click)="addDay()">Add Day</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-row">
+      <button class="btn-save-split" (click)="saveSplit()">
+        Save My Split ✓
+      </button>
+      <span class="save-success" *ngIf="splitSaved()">✅ Split saved!</span>
+    </div>
+  </div>
+
+  <!-- LOG WORKOUT TAB -->
+  <div *ngIf="activeTab() === 'log' && !showHistory()">
+
+    <!-- No split yet -->
+    <div class="no-split" *ngIf="days.length === 0">
+      <p>⚠️ You haven't built your split yet.</p>
+      <button class="btn-go-split" (click)="activeTab.set('split')">
+        Build My Split First →
+      </button>
+    </div>
+
+    <!-- Select day -->
+    <div *ngIf="days.length > 0">
+      <div class="section-card" *ngIf="!selectedDay()">
+        <h2>Select Training Day</h2>
+        <p class="hint">Which session are you doing today?</p>
+        <div class="day-select-grid">
+          <div
+            *ngFor="let day of days"
+            class="day-select-card"
+            (click)="selectDay(day)">
+            <span class="day-select-name">{{ day.name }}</span>
+            <span class="day-select-focus" *ngIf="day.focus">{{ day.focus }}</span>
+            <div class="last-session" *ngIf="getLastSession(day.name) as last">
+              <span>Last: {{ last.date }}</span>
+              <span>{{ last.exercises.length }} exercises</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active logging -->
+      <div *ngIf="selectedDay()">
+        <div class="active-session-header">
+          <div>
+            <span class="session-tag">Active Session</span>
+            <h2>{{ selectedDay()!.name }}</h2>
+            <p *ngIf="selectedDay()!.focus">{{ selectedDay()!.focus }}</p>
+          </div>
+          <button class="btn-cancel" (click)="selectedDay.set(null)">← Change Day</button>
+        </div>
+
+        <!-- Previous session reference -->
+        <div class="prev-session" *ngIf="getLastSession(selectedDay()!.name) as prev">
+          <h3>📊 Last Session — {{ prev.date }}</h3>
+          <div class="prev-exercises">
+            <div class="prev-ex" *ngFor="let ex of prev.exercises">
+              <span class="prev-ex-name">{{ ex.name }}</span>
+              <div class="prev-sets">
+                <span *ngFor="let s of ex.sets" class="prev-set">
+                  {{ s.weight }} × {{ s.reps }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add exercise form -->
+        <div class="section-card">
+          <h2>➕ Add Exercise</h2>
+          <div class="ex-form">
+            <div class="ex-form-row">
+              <div class="ex-form-group full">
+                <label>Exercise Name</label>
+                <input
+                  type="text"
+                  [(ngModel)]="newExerciseName"
+                  placeholder="e.g. Pec Deck, Incline Smith Press" />
+              </div>
+            </div>
+            <div class="ex-form-row">
+              <div class="ex-form-group">
+                <label>Sets</label>
+                <input type="number" [(ngModel)]="newSets" min="1" />
+              </div>
+              <div class="ex-form-group">
+                <label>Reps</label>
+                <input type="number" [(ngModel)]="newReps" min="1" />
+              </div>
+              <div class="ex-form-group">
+                <label>Weight</label>
+                <input
+                  type="text"
+                  [(ngModel)]="newWeight"
+                  placeholder="e.g. 45 lbs, 60 kg, BW" />
+              </div>
+            </div>
+            <div class="ex-form-row">
+              <div class="ex-form-group full">
+                <label>Notes (optional)</label>
+                <input
+                  type="text"
+                  [(ngModel)]="newNote"
+                  placeholder="e.g. Next target: 50 lbs, FS + 10 lbs" />
+              </div>
+            </div>
+            <button class="btn-add-ex" (click)="addExercise()">Add Exercise</button>
+          </div>
+        </div>
+
+        <!-- Current exercises -->
+        <div class="section-card" *ngIf="currentExercises.length > 0">
+          <h2>📋 Today's Session</h2>
+          <div class="logged-exercises">
+            <div class="logged-ex" *ngFor="let ex of currentExercises">
+              <div class="logged-ex-header">
+                <span class="logged-ex-name">{{ ex.name }}</span>
+                <button class="btn-remove-ex" (click)="removeExercise(ex.id)">✕</button>
+              </div>
+              <div class="logged-sets">
+                <span *ngFor="let s of ex.sets; let i = index" class="logged-set">
+                  Set {{ i + 1 }}: {{ s.weight }} × {{ s.reps }}
+                </span>
+              </div>
+              <p class="logged-note" *ngIf="ex.note">📌 {{ ex.note }}</p>
+            </div>
+          </div>
+
+          <button class="btn-save-session" (click)="saveSession()">
+            Save Session ✓
+          </button>
+          <span class="save-success" *ngIf="logSaved()">✅ Session saved!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div *ngIf="showHistory()">
+    <div class="section-card" *ngIf="sessions.length === 0">
+      <p class="hint" style="text-align:center; padding: 40px;">
+        No sessions logged yet. Start tracking your workouts!
+      </p>
+    </div>
+
+    <div class="history-list" *ngIf="sessions.length > 0">
+      <div class="history-item" *ngFor="let session of sessions">
+        <div class="history-header">
+          <div>
+            <span class="history-day">{{ session.dayName }}</span>
+            <span class="history-date">{{ session.date }}</span>
+          </div>
+          <button class="btn-delete-session" (click)="deleteSession(session.id)">
+            Delete
+          </button>
+        </div>
+        <div class="history-exercises">
+          <div class="history-ex" *ngFor="let ex of session.exercises">
+            <span class="history-ex-name">{{ ex.name }}</span>
+            <div class="history-sets">
+              <span *ngFor="let s of ex.sets" class="history-set">
+                {{ s.weight }} × {{ s.reps }}
+              </span>
+            </div>
+            <p class="history-note" *ngIf="ex.note">📌 {{ ex.note }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-toast" *ngIf="logSaved()">✅ Session saved successfully!</div>
+</div>
