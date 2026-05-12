@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,6 +23,7 @@ interface LoggedExercise {
 interface WorkoutSession {
   id: number;
   date: string;
+  dateKey: string;
   dayName: string;
   exercises: LoggedExercise[];
 }
@@ -35,7 +36,7 @@ interface WorkoutSession {
   styleUrl: './my-program.css'
 })
 export class MyProgram {
-  activeTab = signal<'split' | 'log'>('split');
+  activeTab = signal<'split' | 'log' | 'history'>('split');
 
   // Split builder
   splitName = '';
@@ -54,7 +55,11 @@ export class MyProgram {
   newWeight = '';
   newNote = '';
   logSaved = signal(false);
-  showHistory = signal(false);
+
+  // Calendar
+  currentDate = signal(new Date());
+  selectedSession = signal<WorkoutSession | null>(null);
+  showModal = signal(false);
 
   constructor() {
     this.loadSplit();
@@ -73,11 +78,7 @@ export class MyProgram {
 
   addDay() {
     if (!this.newDayName) return;
-    this.days.push({
-      id: Date.now(),
-      name: this.newDayName,
-      focus: this.newDayFocus
-    });
+    this.days.push({ id: Date.now(), name: this.newDayName, focus: this.newDayFocus });
     this.newDayName = '';
     this.newDayFocus = '';
   }
@@ -104,8 +105,6 @@ export class MyProgram {
 
   selectDay(day: CustomDay) {
     this.selectedDay.set(day);
-    this.currentExercises = [];
-    this.activeTab.set('log');
   }
 
   addExercise() {
@@ -131,11 +130,12 @@ export class MyProgram {
 
   saveSession() {
     if (!this.selectedDay() || this.currentExercises.length === 0) return;
+    const now = new Date();
+    const dateKey = this.formatDateKey(now);
     const session: WorkoutSession = {
       id: Date.now(),
-      date: new Date().toLocaleDateString('en-US', {
-        weekday: 'short', month: 'short', day: 'numeric'
-      }),
+      date: now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      dateKey,
       dayName: this.selectedDay()!.name,
       exercises: [...this.currentExercises]
     };
@@ -150,9 +150,63 @@ export class MyProgram {
   deleteSession(id: number) {
     this.sessions = this.sessions.filter(s => s.id !== id);
     localStorage.setItem('marhaba_sessions', JSON.stringify(this.sessions));
+    this.showModal.set(false);
   }
 
   getLastSession(dayName: string): WorkoutSession | undefined {
     return this.sessions.find(s => s.dayName === dayName);
+  }
+
+  // ---- CALENDAR ----
+  formatDateKey(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  get currentMonthYear(): string {
+    return this.currentDate().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  get calendarDays(): (Date | null)[] {
+    const date = new Date(this.currentDate());
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const startPad = firstDay.getDay();
+    const days: (Date | null)[] = Array(startPad).fill(null);
+    for (let i = 1; i <= lastDay.getDate(); i++) {
+      days.push(new Date(date.getFullYear(), date.getMonth(), i));
+    }
+    while (days.length % 7 !== 0) days.push(null);
+    return days;
+  }
+
+  isToday(date: Date): boolean {
+    return this.formatDateKey(date) === this.formatDateKey(new Date());
+  }
+
+  getSessionForDate(date: Date): WorkoutSession | undefined {
+    const key = this.formatDateKey(date);
+    return this.sessions.find(s => s.dateKey === key);
+  }
+
+  prevMonth() {
+    const d = new Date(this.currentDate());
+    d.setMonth(d.getMonth() - 1);
+    this.currentDate.set(d);
+  }
+
+  nextMonth() {
+    const d = new Date(this.currentDate());
+    d.setMonth(d.getMonth() + 1);
+    this.currentDate.set(d);
+  }
+
+  openSession(session: WorkoutSession) {
+    this.selectedSession.set(session);
+    this.showModal.set(true);
+  }
+
+  closeModal() {
+    this.showModal.set(false);
+    this.selectedSession.set(null);
   }
 }
