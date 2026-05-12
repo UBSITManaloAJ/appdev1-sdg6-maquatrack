@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExerciseService } from '../../services/exercise';
 import { Exercise } from '../../models/water-data.model';
+import { CanComponentDeactivate } from '../../guards/unsaved-changes-guard';
 
 interface CustomDay {
   id: number;
@@ -38,7 +39,14 @@ interface WorkoutSession {
   templateUrl: './my-program.html',
   styleUrl: './my-program.css'
 })
-export class MyProgram implements OnInit {
+export class MyProgram implements OnInit, CanComponentDeactivate {
+  
+  canDeactivate(): boolean {
+  if (this.currentExercises.length > 0) {
+    return false;
+  }
+  return true;
+}
   activeTab = signal<'split' | 'log' | 'history'>('split');
 
   // Split builder

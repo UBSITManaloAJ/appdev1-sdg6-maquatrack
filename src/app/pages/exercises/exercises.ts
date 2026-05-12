@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExerciseService } from '../../services/exercise';
 import { Exercise } from '../../models/water-data.model';
+import { ExerciseCard } from '../../components/exercise-card/exercise-card';
 
 @Component({
   selector: 'app-exercises',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ExerciseCard],
   templateUrl: './exercises.html',
   styleUrl: './exercises.css'
 })

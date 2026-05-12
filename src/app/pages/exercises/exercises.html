@@ -28,20 +28,10 @@
   </div>
 
   <div class="exercises-grid" *ngIf="!isLoading()">
-    <div
+    <app-exercise-card
       *ngFor="let ex of exerciseList"
-      class="exercise-card"
-      (click)="goToDetail(ex.id)">
-      <div class="exercise-gif">
-        <img [src]="ex.gifUrl" [alt]="ex.name" loading="lazy" />
-      </div>
-      <div class="exercise-info">
-        <h3>{{ ex.name | titlecase }}</h3>
-        <div class="exercise-tags">
-          <span class="tag target">{{ ex.target | titlecase }}</span>
-          <span class="tag equipment">{{ ex.equipment | titlecase }}</span>
-        </div>
-      </div>
-    </div>
+      [exercise]="ex"
+      (cardClicked)="goToDetail($event)">
+    </app-exercise-card>
   </div>
 </div>

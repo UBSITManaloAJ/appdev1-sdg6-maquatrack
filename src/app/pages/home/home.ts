@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,7 +36,13 @@ export class Home {
     private router: Router,
     private fitnessService: FitnessService,
     public authService: AuthService
-  ) {}
+  ) {
+    effect(() => {
+      if (this.selectedDays() > 0) {
+        console.clear();
+      }
+    });
+  }
 
   selectDays(days: number) {
     this.selectedDays.set(days);

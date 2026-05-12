@@ -9,6 +9,7 @@ import { NotFound } from './pages/not-found/not-found';
 import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
 import { AuthGuard } from './guards/auth-guard';
+import { UnsavedChangesGuard } from './guards/unsaved-changes-guard';
 
 export const routes: Routes = [
   { path: '',              component: Login },
@@ -18,7 +19,7 @@ export const routes: Routes = [
   { path: 'planner',       component: Planner,        canActivate: [AuthGuard] },
   { path: 'exercises',     component: Exercises,      canActivate: [AuthGuard] },
   { path: 'exercises/:id', component: ExerciseDetail, canActivate: [AuthGuard] },
-  { path: 'my-program',    component: MyProgram,      canActivate: [AuthGuard] },
+  { path: 'my-program',    component: MyProgram,      canActivate: [AuthGuard], canDeactivate: [UnsavedChangesGuard] },
   { path: 'about',         component: About,          canActivate: [AuthGuard] },
   { path: '**',            component: NotFound }
 ];
