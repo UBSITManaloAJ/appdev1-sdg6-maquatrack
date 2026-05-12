@@ -10,25 +10,10 @@ It supports the United Nations Sustainable Development Goal:
 
 ## Features
 - 🔐 Mock Authentication (Login / Signup)
-- 🏠 Home Dashboard with EXP & Rank System
 - 💪 Workout Logger with Split Suggestions (PPL, Upper-Lower, Arnold, Bro Split)
-- 💧 Hydration Tracker (daily drink logging)
 - 📅 Weekly Gym Calendar Planner
-- 🏆 Challenges System with EXP Rewards
-- 📊 Global Health Data Dashboard (REST Countries API)
 - 🌍 SDG 3 Information Page
-- 📱 Responsive Design with Sidebar Navigation
-
-## Rank System
-| Rank | EXP Required |
-|------|-------------|
-| 🩶 Beginner | 0 EXP |
-| ⚙️ Iron | 100 EXP |
-| 🥉 Bronze | 300 EXP |
-| 🥈 Silver | 600 EXP |
-| 🥇 Gold | 1000 EXP |
-| 💎 Platinum | 1500 EXP |
-| 👑 Elite | 2000 EXP |
+- 📱 Responsive Design 
 
 ## SDG Alignment
 **SDG 3 — Good Health and Well-being**
